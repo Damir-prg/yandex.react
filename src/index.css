@@ -1,6 +1,8 @@
 :root {
   --text-primary: #f2f2f3;
   --text-secondary: #8585ad;
+
+  --max-content-width: 1240px;
 }
 
 * {

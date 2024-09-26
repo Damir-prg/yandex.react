@@ -1,0 +1,8 @@
+.page-container {
+  flex-grow: 1;
+
+  margin: 0 auto;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: var(--max-content-width);
+}
