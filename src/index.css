@@ -3,6 +3,8 @@
   --text-secondary: #8585ad;
 
   --max-content-width: 1240px;
+
+  --scroll-bg: #2f2f37;
 }
 
 * {
@@ -10,6 +12,22 @@
   margin: 0;
   padding: 0;
   border: none;
+  color: var(--text-primary);
+}
+
+/* Для WebKit браузеров (Chrome, Safari) */
+*::-webkit-scrollbar {
+  width: 8px;
+  background: #8585ad;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #2f2f37;
+}
+
+*::-webkit-scrollbar-track-piece {
+  display: none;
+  visibility: hidden;
 }
 
 body {
