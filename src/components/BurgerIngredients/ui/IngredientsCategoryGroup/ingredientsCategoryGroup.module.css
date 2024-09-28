@@ -14,11 +14,9 @@
 
 .category-group-content {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Разделение на 2 колонки равной ширины */
+  grid-gap: 10px;
   padding-inline: 16px;
   gap: 24px;
 }

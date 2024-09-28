@@ -26,7 +26,9 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
       <ul className={classes["category-group-content"]}>
         {items?.length ? (
           items.map((item) => (
-            <IngredientCard ingredient={item} key={item._id} />
+            <li key={item._id}>
+              <IngredientCard ingredient={item} />
+            </li>
           ))
         ) : (
           <p className="text text_type_main-default text_color_inactive">
