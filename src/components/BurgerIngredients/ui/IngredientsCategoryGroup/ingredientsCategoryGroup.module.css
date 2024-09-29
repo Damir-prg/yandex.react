@@ -15,8 +15,6 @@
 .category-group-content {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Разделение на 2 колонки равной ширины */
-  grid-gap: 10px;
-  padding-inline: 16px;
+  grid-template-columns: 1fr 1fr;
   gap: 24px;
 }

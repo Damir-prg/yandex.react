@@ -1,0 +1,6 @@
+.constructor-items {
+  flex-grow: 1;
+  overflow: auto;
+  width: 100%;
+  padding-inline: 16px;
+}
