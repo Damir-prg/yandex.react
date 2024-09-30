@@ -23,7 +23,8 @@
     "paths": {
       "components/*": ["src/components/*"],
       "pages/*": ["src/pages/*"],
-      "api/*": ["src/api/*"]
+      "api/*": ["src/api/*"],
+      "contexts/*": ["src/contexts/*"]
     }
   },
   "include": ["src"],
