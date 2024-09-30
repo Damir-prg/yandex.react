@@ -1,18 +1,20 @@
 import { TIngredient } from "api/types";
 import { FC } from "react";
 import { IngredientCard } from "../IngredientCard/IngredientCard";
+import { ETabs } from "../../types/tabs.enum";
+import { titles } from "../../constants/titles";
 
 import classes from "./ingredientsCategoryGroup.module.css";
 import classNames from "classnames";
 
 type TIngredientsCategoryGroupProps = {
-  title: string;
+  titleKey: ETabs;
   items: Array<TIngredient>;
 };
 
 export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
   items,
-  title,
+  titleKey,
 }) => {
   return (
     <article className={classes["category-group"]}>
@@ -21,7 +23,7 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
           "text text_type_main-medium",
           classes["category-group-title"]
         )}>
-        {title}
+        {titles[titleKey]}
       </h3>
       <ul className={classes["category-group-content"]}>
         {items?.length ? (
@@ -32,7 +34,7 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
           ))
         ) : (
           <p className="text text_type_main-default text_color_inactive">
-            К сожалению, {title.toLowerCase()} не найдены
+            К сожалению, {titleKey.toLowerCase()} не найдены
           </p>
         )}
       </ul>

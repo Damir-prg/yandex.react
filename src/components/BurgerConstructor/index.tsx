@@ -1,11 +1,18 @@
+import { useSelectedIngredients } from "contexts/SelectedIngredients";
 import classes from "./burgerConstructor.module.css";
-import { ConstructorItems, ConstructorTotal } from "./ui";
+import { ConstructorTotal, Bun, Ingredients } from "./ui";
 
 export const BurgerCostructor = () => {
+  const { selectedBun, selectedIngredients } = useSelectedIngredients();
+
   return (
     <section className={classes["burger-constructor"]}>
-      <ConstructorItems />
-      <ConstructorTotal count={400} />
+      <article className={classes["burger-constructor-items"]}>
+        <Bun bun={selectedBun} orientation="top" />
+        <Ingredients selectedIngredients={selectedIngredients} />
+        <Bun bun={selectedBun} orientation="bottom" />
+      </article>
+      <ConstructorTotal />
     </section>
   );
 };

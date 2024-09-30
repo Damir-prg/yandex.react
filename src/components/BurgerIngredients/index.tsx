@@ -1,58 +1,52 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ETabs } from "./types/tabs.enum";
 import {
   IngredientsTabs,
   ConstructorTitle,
   IngredientsCategoryGroup,
 } from "./ui";
+import { useIngredients } from "contexts/Ingredients";
 
 import classes from "./burgerIngredients.module.css";
-import { TIngredient } from "api/types";
-import { ingredientsApi } from "api/ingredients";
+import { Spinner } from "components/Spinner";
 
 export const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState<ETabs>(ETabs.BUN);
-  const [ingredients, setIngredients] = useState<Array<TIngredient>>([]);
+  const { ingredients, isLoading } = useIngredients();
 
   const buns = useMemo(
-    () => ingredients.filter((ingredient) => ingredient.type === ETabs.BUN),
+    () =>
+      ingredients?.filter((ingredient) => ingredient.type === ETabs.BUN) || [],
     [ingredients]
   );
 
   const sauces = useMemo(
-    () => ingredients.filter((ingredient) => ingredient.type === ETabs.SAUCE),
+    () =>
+      ingredients?.filter((ingredient) => ingredient.type === ETabs.SAUCE) ||
+      [],
     [ingredients]
   );
 
   const mains = useMemo(
-    () => ingredients.filter((ingredient) => ingredient.type === ETabs.MAIN),
+    () =>
+      ingredients?.filter((ingredient) => ingredient.type === ETabs.MAIN) || [],
     [ingredients]
   );
-
-  const loadAndSetIngredients = useCallback(async () => {
-    const ingredientsResponse = await ingredientsApi.getAll();
-
-    if (ingredientsResponse?.error) {
-      return;
-    }
-
-    if (ingredientsResponse?.data) {
-      setIngredients(ingredientsResponse.data);
-    }
-  }, [ingredientsApi, setIngredients]);
-
-  useEffect(() => {
-    loadAndSetIngredients();
-  }, []);
 
   return (
     <section className={classes["burger-ingredients"]}>
       <ConstructorTitle />
       <IngredientsTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <section className={classes["burger-ingredients-content"]}>
-        <IngredientsCategoryGroup items={buns} title={ETabs.BUN} />
-        <IngredientsCategoryGroup items={sauces} title={ETabs.SAUCE} />
-        <IngredientsCategoryGroup items={mains} title={ETabs.MAIN} />
+        {isLoading ? (
+          <Spinner description="Загрузка ингредиентов..." />
+        ) : (
+          <>
+            <IngredientsCategoryGroup items={buns} titleKey={ETabs.BUN} />
+            <IngredientsCategoryGroup items={sauces} titleKey={ETabs.SAUCE} />
+            <IngredientsCategoryGroup items={mains} titleKey={ETabs.MAIN} />
+          </>
+        )}
       </section>
     </section>
   );

@@ -1,4 +1,4 @@
-import { FC, FormEventHandler } from "react";
+import { FC, FormEventHandler, useMemo } from "react";
 import {
   CurrencyIcon,
   Button,
@@ -6,12 +6,27 @@ import {
 
 import classes from "./constructorTotal.module.css";
 import classNames from "classnames";
+import { useSelectedIngredients } from "contexts/SelectedIngredients";
 
-type TConstructorTotalProps = {
-  count?: number;
-};
+export const ConstructorTotal: FC = () => {
+  const { selectedBun, selectedIngredients } = useSelectedIngredients();
 
-export const ConstructorTotal: FC<TConstructorTotalProps> = ({ count }) => {
+  const totalPrice = useMemo(() => {
+    let total = 0;
+
+    if (selectedBun) {
+      total += selectedBun.price;
+    }
+
+    if (selectedIngredients) {
+      total += selectedIngredients.reduce((prev, acc) => {
+        return prev + acc.price;
+      }, 0);
+    }
+
+    return total;
+  }, [selectedBun, selectedIngredients]);
+
   const formSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
   };
@@ -23,7 +38,7 @@ export const ConstructorTotal: FC<TConstructorTotalProps> = ({ count }) => {
           "text text_type_main-large",
           classes["total-form-count"]
         )}>
-        {count}
+        {totalPrice}
         <CurrencyIcon type="primary" />
       </span>
       <Button htmlType="submit">Оформить заказ</Button>

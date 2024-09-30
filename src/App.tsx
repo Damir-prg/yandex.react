@@ -7,9 +7,9 @@ import { SelectedIngredientsProvider } from "contexts/SelectedIngredients/Select
 function App() {
   return (
     <main className={classes["main-wrapper"]}>
+      <AppHeader />
       <IngredientsDataProvider>
         <SelectedIngredientsProvider>
-          <AppHeader />
           <ConstructorPage />
         </SelectedIngredientsProvider>
       </IngredientsDataProvider>

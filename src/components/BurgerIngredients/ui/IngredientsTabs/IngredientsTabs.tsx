@@ -2,6 +2,7 @@ import { FC } from "react";
 import classes from "./ingredientsTabs.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ETabs } from "../../types/tabs.enum";
+import { titles } from "../../constants/titles";
 
 type TIngredientsTabsProps = {
   activeTab: string;
@@ -19,7 +20,7 @@ export const IngredientsTabs: FC<TIngredientsTabsProps> = ({
           value={ETabs.BUN}
           active={ETabs.BUN === activeTab}
           onClick={(value) => setActiveTab(value as ETabs)}>
-          <p className="text text_type_main-default">{ETabs.BUN}</p>
+          <p className="text text_type_main-default">{titles[ETabs.BUN]}</p>
         </Tab>
       </li>
       <li>
@@ -27,7 +28,7 @@ export const IngredientsTabs: FC<TIngredientsTabsProps> = ({
           value={ETabs.SAUCE}
           active={ETabs.SAUCE === activeTab}
           onClick={(value) => setActiveTab(value as ETabs)}>
-          <p className="text text_type_main-default">{ETabs.SAUCE}</p>
+          <p className="text text_type_main-default">{titles[ETabs.SAUCE]}</p>
         </Tab>
       </li>
       <li>
@@ -35,7 +36,7 @@ export const IngredientsTabs: FC<TIngredientsTabsProps> = ({
           value={ETabs.MAIN}
           active={ETabs.MAIN === activeTab}
           onClick={(value) => setActiveTab(value as ETabs)}>
-          <p className="text text_type_main-default">{ETabs.MAIN}</p>
+          <p className="text text_type_main-default">{titles[ETabs.MAIN]}</p>
         </Tab>
       </li>
     </ul>

@@ -21,10 +21,10 @@ export const IngredientsDataProvider: FC<PropsWithChildren> = ({
 
   const loadData = async () => {
     setIsLoading(true);
-    const data = await ingredientsApi.getAll();
+    const { data, success } = await ingredientsApi.getAll();
 
-    if (data.success) {
-      setIngredients(ingredients);
+    if (success && data) {
+      setIngredients(data);
     }
     setIsLoading(false);
   };
