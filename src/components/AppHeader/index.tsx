@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   BurgerIcon,
   ListIcon,
@@ -5,7 +6,7 @@ import {
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { HeaderButton } from "./ui/HeaderButton/HeaderButton";
-import { useState } from "react";
+
 import classes from "./appHeader.module.css";
 import classNames from "classnames";
 

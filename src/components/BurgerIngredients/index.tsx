@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
+import { Spinner } from "components/Spinner";
+import { useIngredients } from "contexts/Ingredients";
 import { ETabs } from "./types/tabs.enum";
 import {
   IngredientsTabs,
   ConstructorTitle,
   IngredientsCategoryGroup,
 } from "./ui";
-import { useIngredients } from "contexts/Ingredients";
 
 import classes from "./burgerIngredients.module.css";
-import { Spinner } from "components/Spinner";
 
 export const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState<ETabs>(ETabs.BUN);

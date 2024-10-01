@@ -1,17 +1,25 @@
-import { TIngredient } from "api/types";
-import { FC, useCallback } from "react";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import classes from "./ingredientCard.module.css";
-import classNames from "classnames";
+import { FC, useCallback, useMemo } from "react";
+import {
+  CurrencyIcon,
+  Counter,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
+import { TIngredient } from "api/types";
+
+import classNames from "classnames";
+import classes from "./ingredientCard.module.css";
 
 type TIngredientsProps = {
   ingredient: TIngredient;
 };
 
 export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
-  const { setSelectedBun, setSelectedIngredients } = useSelectedIngredients();
+  const {
+    setSelectedBun,
+    setSelectedIngredients,
+    selectedBun,
+    selectedIngredients,
+  } = useSelectedIngredients();
 
   const handleClick = useCallback(
     (item: TIngredient) => {
@@ -36,15 +44,27 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
     [setSelectedBun, setSelectedIngredients]
   );
 
-  const { image, name, price } = ingredient;
+  const count = useMemo(() => {
+    if (selectedBun && selectedBun._id === ingredient._id) {
+      return 1;
+    }
+
+    if (selectedIngredients) {
+      return selectedIngredients.filter((item) => item._id === ingredient._id)
+        .length;
+    }
+
+    return 0;
+  }, [selectedBun, selectedIngredients, ingredient]);
 
   return (
     <div
       className={classes["card-wrapper"]}
       onClick={() => handleClick(ingredient)}>
+      {count ? <Counter count={count} size="default" /> : null}
       <img
-        src={image}
-        alt={`${name} изображение`}
+        src={ingredient.image}
+        alt={`${ingredient.name} изображение`}
         className={classes["card-img"]}
       />
       <span
@@ -52,7 +72,7 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
           "text text_type_main-default",
           classes["card-price"]
         )}>
-        {price}
+        {ingredient.price}
         <CurrencyIcon type="primary" />
       </span>
       <p
@@ -60,7 +80,7 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
           "text text_type_main-default",
           classes["card-title"]
         )}>
-        {name}
+        {ingredient.name}
       </p>
     </div>
   );

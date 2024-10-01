@@ -1,9 +1,9 @@
-import { TIngredient } from "api/types";
 import { ComponentProps, FC } from "react";
-import classNames from "classnames";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
+import { TIngredient } from "api/types";
 
+import classNames from "classnames";
 import classes from "./bun.module.css";
 
 type TBunProps = {

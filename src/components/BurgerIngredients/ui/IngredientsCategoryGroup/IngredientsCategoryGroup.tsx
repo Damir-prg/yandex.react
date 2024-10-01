@@ -1,11 +1,11 @@
-import { TIngredient } from "api/types";
 import { FC } from "react";
+import { TIngredient } from "api/types";
 import { IngredientCard } from "../IngredientCard/IngredientCard";
 import { ETabs } from "../../types/tabs.enum";
 import { titles } from "../../constants/titles";
 
-import classes from "./ingredientsCategoryGroup.module.css";
 import classNames from "classnames";
+import classes from "./ingredientsCategoryGroup.module.css";
 
 type TIngredientsCategoryGroupProps = {
   titleKey: ETabs;

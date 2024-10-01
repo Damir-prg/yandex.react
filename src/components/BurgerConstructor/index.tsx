@@ -1,8 +1,10 @@
+import { FC } from "react";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
-import classes from "./burgerConstructor.module.css";
 import { ConstructorTotal, Bun, Ingredients } from "./ui";
 
-export const BurgerCostructor = () => {
+import classes from "./burgerConstructor.module.css";
+
+export const BurgerCostructor: FC = () => {
   const { selectedBun, selectedIngredients } = useSelectedIngredients();
 
   return (

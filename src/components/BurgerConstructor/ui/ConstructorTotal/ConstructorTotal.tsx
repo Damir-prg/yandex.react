@@ -3,10 +3,10 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import classes from "./constructorTotal.module.css";
-import classNames from "classnames";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
+
+import classNames from "classnames";
+import classes from "./constructorTotal.module.css";
 
 export const ConstructorTotal: FC = () => {
   const { selectedBun, selectedIngredients } = useSelectedIngredients();

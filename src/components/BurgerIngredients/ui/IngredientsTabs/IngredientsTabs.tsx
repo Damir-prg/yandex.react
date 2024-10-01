@@ -1,8 +1,9 @@
 import { FC } from "react";
-import classes from "./ingredientsTabs.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ETabs } from "../../types/tabs.enum";
 import { titles } from "../../constants/titles";
+
+import classes from "./ingredientsTabs.module.css";
 
 type TIngredientsTabsProps = {
   activeTab: string;

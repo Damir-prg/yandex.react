@@ -1,6 +1,6 @@
-import classNames from "classnames";
 import { DetailedHTMLProps, FC, HTMLAttributes } from "react";
 
+import classNames from "classnames";
 import classes from "./pageContainer.module.css";
 
 export const PageContainer: FC<

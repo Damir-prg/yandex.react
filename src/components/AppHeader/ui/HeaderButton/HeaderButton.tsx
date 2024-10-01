@@ -1,8 +1,8 @@
 import { FC, MouseEventHandler } from "react";
-import classNames from "classnames";
-
-import classes from "./headerButton.module.css";
 import { TIconProps } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
+
+import classNames from "classnames";
+import classes from "./headerButton.module.css";
 
 type THeaderButtonProps = {
   Icon: FC<TIconProps>;

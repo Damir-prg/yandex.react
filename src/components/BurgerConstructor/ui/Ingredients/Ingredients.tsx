@@ -1,13 +1,13 @@
-import { TIngredient } from "api/types";
-import classNames from "classnames";
 import { FC, useCallback } from "react";
-
-import classes from "./ingredients.module.css";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
+import { TIngredient } from "api/types";
+
+import classNames from "classnames";
+import classes from "./ingredients.module.css";
 
 type TIngredientsProps = {
   selectedIngredients: Array<TIngredient> | null;
