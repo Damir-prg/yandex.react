@@ -5,6 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
 import { TIngredient } from "api/types";
+import { v4 as uuidv4 } from "uuid";
 
 import classNames from "classnames";
 import classes from "./ingredientCard.module.css";
@@ -32,13 +33,15 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
       }
 
       return setSelectedIngredients((prev) => {
+        const itemWithKey = { ...item, __key: uuidv4() };
+
         if (!prev) {
-          return [item];
+          return [itemWithKey];
         }
 
-        return prev.find((prevItem) => prevItem._id === item._id)
+        return prev.find((prevItem) => prevItem.__key === itemWithKey.__key)
           ? prev
-          : [...prev, item];
+          : [...prev, itemWithKey];
       });
     },
     [setSelectedBun, setSelectedIngredients]

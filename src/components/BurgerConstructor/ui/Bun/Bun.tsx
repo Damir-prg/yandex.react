@@ -36,7 +36,7 @@ export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
       price={price}
       text={name}
       thumbnail={image}
-      extraClass={classes["bun-margin"]}
+      extraClass={classes["bun-rewrite"]}
       isLocked
       handleClose={() => setSelectedBun?.(null)}
     />

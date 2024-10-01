@@ -3,14 +3,16 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
-import { TIngredient } from "api/types";
+import {
+  useSelectedIngredients,
+  TSelectedIngredientsWithKey,
+} from "contexts/SelectedIngredients";
 
 import classNames from "classnames";
 import classes from "./ingredients.module.css";
 
 type TIngredientsProps = {
-  selectedIngredients: Array<TIngredient> | null;
+  selectedIngredients: Array<TSelectedIngredientsWithKey> | null;
 };
 
 export const Ingredients: FC<TIngredientsProps> = ({ selectedIngredients }) => {
@@ -30,13 +32,13 @@ export const Ingredients: FC<TIngredientsProps> = ({ selectedIngredients }) => {
   }
 
   const handleClose = useCallback(
-    (item: TIngredient) =>
+    (item: TSelectedIngredientsWithKey) =>
       setSelectedIngredients?.((prev) => {
         if (!prev || prev?.length === 1) {
           return null;
         }
 
-        return prev.filter((prevItem) => prevItem._id !== item._id);
+        return prev.filter((prevItem) => prevItem.__key !== item.__key);
       }),
     [setSelectedIngredients]
   );

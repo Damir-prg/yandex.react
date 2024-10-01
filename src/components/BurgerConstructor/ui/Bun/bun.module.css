@@ -21,6 +21,7 @@
   border-radius: var(--bottom-constructor-item-border-radius);
 }
 
-.bun-margin {
+.bun-rewrite {
   margin-left: 32px;
+  flex-grow: 0;
 }
