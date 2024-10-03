@@ -14,13 +14,16 @@ export const ModalOverlay: FC<Pick<TModalProps, "onClose">> = ({ onClose }) => {
 
   const handleKeyPress = (e: KeyboardEvent) => {
     if (e.keyCode === 27) {
-      // Code to handle the escape button click
-      console.log("Escape button pressed");
+      onClose();
     }
   };
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
   }, []);
 
   return <div className={classes["modal-overlay"]} onClick={handleClick} />;
