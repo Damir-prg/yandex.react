@@ -24,7 +24,9 @@
       "components/*": ["src/components/*"],
       "pages/*": ["src/pages/*"],
       "api/*": ["src/api/*"],
-      "contexts/*": ["src/contexts/*"]
+      "contexts/*": ["src/contexts/*"],
+      "types/*": ["src/types/*"],
+      "images": ["src/images/index.ts"]
     }
   },
   "include": ["src"],
