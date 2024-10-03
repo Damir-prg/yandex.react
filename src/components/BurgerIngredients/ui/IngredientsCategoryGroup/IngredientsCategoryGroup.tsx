@@ -17,7 +17,7 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
   titleKey,
 }) => {
   return (
-    <article className={classes["category-group"]}>
+    <div className={classes["category-group"]}>
       <h3
         className={classNames(
           "text text_type_main-medium",
@@ -38,6 +38,6 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
           </p>
         )}
       </ul>
-    </article>
+    </div>
   );
 };

@@ -14,7 +14,12 @@
 
 .category-group-content {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 24px;
+}
+
+.category-group-content > li {
+  flex-basis: 270px;
 }

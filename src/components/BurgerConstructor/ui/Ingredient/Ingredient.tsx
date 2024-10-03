@@ -10,6 +10,7 @@ import { FC, MouseEventHandler, useCallback, useState } from "react";
 
 import classes from "./Ingredient.module.css";
 import { Modal } from "components/Modal";
+import { IngredientDetails } from "components/IngredientsDetails";
 
 type TIngredientsProps = {
   selectedIngredient: TSelectedIngredientsWithKey;
@@ -43,7 +44,7 @@ export const Ingredient: FC<TIngredientsProps> = ({ selectedIngredient }) => {
         isOpen={modalState}
         onClose={() => setModalState(false)}
         title="Детали ингредиента">
-        dasd
+        <IngredientDetails ingredient={selectedIngredient} />
       </Modal>
       <li className={classes["selected-ingredient"]} onClick={handleClick}>
         <DragIcon type="primary" />
