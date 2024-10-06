@@ -11,15 +11,17 @@
   justify-items: center;
   gap: 8px;
 
+  text-decoration: none;
+
   transition: 0.075s all;
 
   cursor: pointer;
 }
 
-.header-button:hover {
-  color: var(--text-primary);
+.header-button_disabled {
+  cursor: not-allowed;
 }
 
-.header-button:disabled {
-  cursor: not-allowed;
+.header-button:hover {
+  color: var(--text-primary);
 }

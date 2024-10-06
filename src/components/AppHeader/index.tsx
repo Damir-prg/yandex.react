@@ -34,7 +34,6 @@ export const AppHeader = () => {
               isActive={EHeaderButton.CONSTRUCTOR === activeButton}
               Icon={BurgerIcon}
               title={EHeaderButton.CONSTRUCTOR}
-              callback={() => setActiveButton(EHeaderButton.CONSTRUCTOR)}
             />
           </li>
           <li>
@@ -42,8 +41,6 @@ export const AppHeader = () => {
               isActive={EHeaderButton.ORDERS === activeButton}
               Icon={ListIcon}
               title={EHeaderButton.ORDERS}
-              callback={() => setActiveButton(EHeaderButton.ORDERS)}
-              disabled
             />
           </li>
         </div>
@@ -59,8 +56,6 @@ export const AppHeader = () => {
             isActive={EHeaderButton.PROFILE === activeButton}
             Icon={ProfileIcon}
             title={EHeaderButton.PROFILE}
-            callback={() => setActiveButton(EHeaderButton.PROFILE)}
-            disabled
           />
         </li>
       </ul>

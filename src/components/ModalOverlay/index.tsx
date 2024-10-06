@@ -13,7 +13,7 @@ export const ModalOverlay: FC<Pick<TModalProps, "onClose">> = ({ onClose }) => {
   );
 
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.keyCode === 27) {
+    if (e.key === "Escape") {
       onClose();
     }
   };

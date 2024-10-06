@@ -1,12 +1,10 @@
-import { ComponentProps, FC, MouseEventHandler, useState } from "react";
+import { ComponentProps, FC } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelectedIngredients } from "contexts/SelectedIngredients";
 import type { TIngredient } from "api/types";
-import { IngredientDetails } from "components/IngredientsDetails";
 
 import classNames from "classnames";
 import classes from "./bun.module.css";
-import { Modal } from "components/Modal";
 
 type TBunProps = {
   bun: TIngredient | null;
@@ -14,7 +12,6 @@ type TBunProps = {
 };
 
 export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
-  const [modalState, setModalState] = useState(false);
   const { setSelectedBun } = useSelectedIngredients();
 
   if (!bun) {
@@ -31,30 +28,16 @@ export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
     );
   }
 
-  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setModalState(true);
-  };
-
   return (
-    <>
-      <Modal
-        isOpen={modalState}
-        onClose={() => setModalState(false)}
-        title="Детали ингредиента">
-        <IngredientDetails ingredient={bun} />
-      </Modal>
-      <div className={classes["bun-rewrite"]} onClick={handleClick}>
-        <ConstructorElement
-          type={orientation}
-          price={bun.price}
-          text={bun.name}
-          thumbnail={bun.image}
-          isLocked
-          handleClose={() => setSelectedBun?.(null)}
-        />
-      </div>
-    </>
+    <div className={classes["bun-rewrite"]}>
+      <ConstructorElement
+        type={orientation}
+        price={bun.price}
+        text={bun.name}
+        thumbnail={bun.image}
+        isLocked
+        handleClose={() => setSelectedBun?.(null)}
+      />
+    </div>
   );
 };

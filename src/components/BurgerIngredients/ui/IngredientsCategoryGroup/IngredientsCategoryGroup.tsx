@@ -34,7 +34,7 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
           ))
         ) : (
           <p className="text text_type_main-default text_color_inactive">
-            К сожалению, {titleKey.toLowerCase()} не найдены
+            К сожалению, {titles[titleKey].toLowerCase()} не найдены
           </p>
         )}
       </ul>

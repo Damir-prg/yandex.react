@@ -6,18 +6,15 @@ import {
   TSelectedIngredientsWithKey,
   useSelectedIngredients,
 } from "contexts/SelectedIngredients";
-import { FC, MouseEventHandler, useCallback, useState } from "react";
+import { FC, useCallback } from "react";
 
 import classes from "./Ingredient.module.css";
-import { Modal } from "components/Modal";
-import { IngredientDetails } from "components/IngredientsDetails";
 
 type TIngredientsProps = {
   selectedIngredient: TSelectedIngredientsWithKey;
 };
 
 export const Ingredient: FC<TIngredientsProps> = ({ selectedIngredient }) => {
-  const [modalState, setModalState] = useState(false);
   const { setSelectedIngredients } = useSelectedIngredients();
 
   const handleClose = useCallback(
@@ -32,29 +29,15 @@ export const Ingredient: FC<TIngredientsProps> = ({ selectedIngredient }) => {
     [setSelectedIngredients]
   );
 
-  const handleClick: MouseEventHandler<HTMLLIElement> = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setModalState(true);
-  };
-
   return (
-    <>
-      <Modal
-        isOpen={modalState}
-        onClose={() => setModalState(false)}
-        title="Детали ингредиента">
-        <IngredientDetails ingredient={selectedIngredient} />
-      </Modal>
-      <li className={classes["selected-ingredient"]} onClick={handleClick}>
-        <DragIcon type="primary" />
-        <ConstructorElement
-          price={selectedIngredient.price}
-          text={selectedIngredient.name}
-          thumbnail={selectedIngredient.image}
-          handleClose={() => handleClose(selectedIngredient)}
-        />
-      </li>
-    </>
+    <li className={classes["selected-ingredient"]}>
+      <DragIcon type="primary" />
+      <ConstructorElement
+        price={selectedIngredient.price}
+        text={selectedIngredient.name}
+        thumbnail={selectedIngredient.image}
+        handleClose={() => handleClose(selectedIngredient)}
+      />
+    </li>
   );
 };

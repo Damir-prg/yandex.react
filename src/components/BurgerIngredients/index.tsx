@@ -14,24 +14,19 @@ export const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState<ETabs>(ETabs.BUN);
   const { ingredients, isLoading } = useIngredients();
 
-  const buns = useMemo(
-    () =>
-      ingredients?.filter((ingredient) => ingredient.type === ETabs.BUN) || [],
-    [ingredients]
-  );
-
-  const sauces = useMemo(
-    () =>
-      ingredients?.filter((ingredient) => ingredient.type === ETabs.SAUCE) ||
-      [],
-    [ingredients]
-  );
-
-  const mains = useMemo(
-    () =>
-      ingredients?.filter((ingredient) => ingredient.type === ETabs.MAIN) || [],
-    [ingredients]
-  );
+  const filtredItems = useMemo(() => {
+    return {
+      buns:
+        ingredients?.filter((ingredient) => ingredient.type === ETabs.BUN) ||
+        [],
+      sauces:
+        ingredients?.filter((ingredient) => ingredient.type === ETabs.SAUCE) ||
+        [],
+      mains:
+        ingredients?.filter((ingredient) => ingredient.type === ETabs.MAIN) ||
+        [],
+    };
+  }, [ingredients]);
 
   return (
     <section className={classes["burger-ingredients"]}>
@@ -42,9 +37,18 @@ export const BurgerIngredients = () => {
           <Spinner description="Загрузка ингредиентов..." />
         ) : (
           <>
-            <IngredientsCategoryGroup items={buns} titleKey={ETabs.BUN} />
-            <IngredientsCategoryGroup items={sauces} titleKey={ETabs.SAUCE} />
-            <IngredientsCategoryGroup items={mains} titleKey={ETabs.MAIN} />
+            <IngredientsCategoryGroup
+              items={filtredItems.buns}
+              titleKey={ETabs.BUN}
+            />
+            <IngredientsCategoryGroup
+              items={filtredItems.sauces}
+              titleKey={ETabs.SAUCE}
+            />
+            <IngredientsCategoryGroup
+              items={filtredItems.mains}
+              titleKey={ETabs.MAIN}
+            />
           </>
         )}
       </section>

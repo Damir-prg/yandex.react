@@ -26,6 +26,7 @@ export const IngredientsDataProvider: FC<PropsWithChildren> = ({
     if (success && data) {
       setIngredients(data);
     }
+
     setIsLoading(false);
   };
 
