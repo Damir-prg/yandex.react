@@ -1,0 +1,22 @@
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 36px;
+
+  padding: 20px 0;
+  min-width: 120px;
+  width: 100%;
+}
+
+.modal-header_between {
+  justify-content: space-between;
+}
+
+.modal-header_flex-end {
+  justify-content: flex-end;
+}
+
+.hover {
+  cursor: pointer;
+}

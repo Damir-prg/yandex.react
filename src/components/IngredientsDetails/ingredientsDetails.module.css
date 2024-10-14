@@ -1,0 +1,47 @@
+.ingredients-details-wrapper {
+  margin: 0 60px 20px 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+}
+
+.ingredients-details-figure {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.ingredients-details-figure > img {
+  padding-inline: 20px;
+}
+
+.ingredients-details-figure > figcaption {
+  text-align: center;
+}
+
+.ingredients-details-description {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.ingredients-details-description-item {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ingredients-details-description-item > span {
+  text-wrap: nowrap;
+}

@@ -1,0 +1,27 @@
+.empty-bun {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+
+  padding: 16px 24px;
+  max-width: 536px;
+  min-height: 80px;
+  height: fit-content;
+}
+
+.empty-bun_top {
+  border-radius: var(--top-constructor-item-border-radius);
+}
+
+.empty-bun_bottom {
+  border-radius: var(--bottom-constructor-item-border-radius);
+}
+
+.bun-rewrite {
+  margin-left: 32px;
+  flex-grow: 0;
+}
