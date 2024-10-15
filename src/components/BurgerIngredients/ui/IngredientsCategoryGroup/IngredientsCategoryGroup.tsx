@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { forwardRef } from "react";
 import { TIngredient } from "api/types";
 import { IngredientCard } from "../IngredientCard/IngredientCard";
 import { ETabs } from "../../types/tabs.enum";
@@ -12,12 +12,12 @@ type TIngredientsCategoryGroupProps = {
   items: Array<TIngredient>;
 };
 
-export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
-  items,
-  titleKey,
-}) => {
+export const IngredientsCategoryGroup = forwardRef<
+  HTMLDivElement,
+  TIngredientsCategoryGroupProps
+>(({ items, titleKey }, ref) => {
   return (
-    <div className={classes["category-group"]}>
+    <div ref={ref} className={classes["category-group"]}>
       <h3
         className={classNames(
           "text text_type_main-medium",
@@ -40,4 +40,4 @@ export const IngredientsCategoryGroup: FC<TIngredientsCategoryGroupProps> = ({
       </ul>
     </div>
   );
-};
+});
