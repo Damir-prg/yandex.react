@@ -37,7 +37,7 @@ const selectedIngredientsSlice = createSlice({
     },
     setSelectedBun(
       state: TSliceSelectedIngredients,
-      action: PayloadAction<TIngredient>
+      action: PayloadAction<TIngredient | null>
     ) {
       state.selectedBun = action.payload;
     },

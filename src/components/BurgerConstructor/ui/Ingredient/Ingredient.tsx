@@ -1,32 +1,29 @@
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  TSelectedIngredientsWithKey,
-  useSelectedIngredients,
-} from "contexts/SelectedIngredients";
-import { FC, useCallback } from "react";
+import { removeSelectedIngredient } from "services/reducers/selectedIngredientsSlice";
+
+import type { FC } from "react";
+import type { AppDispatch } from "services/store/store";
+import type { TSelectedIngredient } from "types/selectedIngredients";
 
 import classes from "./Ingredient.module.css";
 
 type TIngredientsProps = {
-  selectedIngredient: TSelectedIngredientsWithKey;
+  selectedIngredient: TSelectedIngredient;
 };
 
 export const Ingredient: FC<TIngredientsProps> = ({ selectedIngredient }) => {
-  const { setSelectedIngredients } = useSelectedIngredients();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleClose = useCallback(
-    (item: TSelectedIngredientsWithKey) =>
-      setSelectedIngredients?.((prev) => {
-        if (!prev || prev?.length === 1) {
-          return null;
-        }
-
-        return prev.filter((prevItem) => prevItem.__key !== item.__key);
-      }),
-    [setSelectedIngredients]
+    ({ __key }: TSelectedIngredient) => {
+      dispatch(removeSelectedIngredient(__key));
+    },
+    [dispatch]
   );
 
   return (

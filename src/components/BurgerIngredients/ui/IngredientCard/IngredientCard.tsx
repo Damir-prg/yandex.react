@@ -1,12 +1,15 @@
-import { FC, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
-import { TIngredient } from "api/types";
 import { IngredientDetails } from "components/IngredientsDetails";
 import { Modal } from "components/Modal";
+
+import type { FC } from "react";
+import type { TIngredient } from "api/types";
+import type { RootState } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./ingredientCard.module.css";
@@ -17,7 +20,9 @@ type TIngredientsProps = {
 
 export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const { selectedBun, selectedIngredients } = useSelectedIngredients();
+  const { selectedBun, selectedIngredients } = useSelector(
+    (state: RootState) => state.selectedIngredients
+  );
 
   const handleClick = useCallback(() => {
     setModalState(true);

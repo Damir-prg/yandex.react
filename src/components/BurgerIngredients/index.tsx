@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import { Spinner } from "components/Spinner";
-import { useIngredients } from "contexts/Ingredients";
 import { ETabs } from "./types/tabs.enum";
 import {
   IngredientsTabs,
@@ -8,13 +8,17 @@ import {
   IngredientsCategoryGroup,
 } from "./ui";
 
+import type { RootState } from "services/store/store";
+
 import classes from "./burgerIngredients.module.css";
 
 export const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState<ETabs>(ETabs.BUN);
-  const { ingredients, isLoading } = useIngredients();
+  const { ingredients, loading } = useSelector(
+    (state: RootState) => state.ingredients
+  );
 
-  const filtredItems = useMemo(() => {
+  const filteredItems = useMemo(() => {
     return {
       buns:
         ingredients?.filter((ingredient) => ingredient.type === ETabs.BUN) ||
@@ -33,20 +37,20 @@ export const BurgerIngredients = () => {
       <ConstructorTitle />
       <IngredientsTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       <section className={classes["burger-ingredients-content"]}>
-        {isLoading ? (
+        {loading ? (
           <Spinner description="Загрузка ингредиентов..." />
         ) : (
           <>
             <IngredientsCategoryGroup
-              items={filtredItems.buns}
+              items={filteredItems.buns}
               titleKey={ETabs.BUN}
             />
             <IngredientsCategoryGroup
-              items={filtredItems.sauces}
+              items={filteredItems.sauces}
               titleKey={ETabs.SAUCE}
             />
             <IngredientsCategoryGroup
-              items={filtredItems.mains}
+              items={filteredItems.mains}
               titleKey={ETabs.MAIN}
             />
           </>

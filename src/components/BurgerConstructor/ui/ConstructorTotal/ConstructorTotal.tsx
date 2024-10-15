@@ -1,18 +1,23 @@
-import { FC, FormEventHandler, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
 import { Modal } from "components/Modal";
 import { OrderDetails } from "components/OrderDetails";
+
+import type { FC, FormEventHandler } from "react";
+import type { RootState } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./constructorTotal.module.css";
 
 export const ConstructorTotal: FC = () => {
   const [modalState, setModalState] = useState(false);
-  const { selectedBun, selectedIngredients } = useSelectedIngredients();
+  const { selectedBun, selectedIngredients } = useSelector(
+    (state: RootState) => state.selectedIngredients
+  );
 
   const totalPrice = useMemo(() => {
     let total = 0;

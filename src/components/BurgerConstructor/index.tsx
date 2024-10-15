@@ -1,11 +1,15 @@
 import { FC } from "react";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
+import { useSelector } from "react-redux";
 import { ConstructorTotal, Bun, Ingredients } from "./ui";
+
+import type { RootState } from "services/store/store";
 
 import classes from "./burgerConstructor.module.css";
 
-export const BurgerCostructor: FC = () => {
-  const { selectedBun, selectedIngredients } = useSelectedIngredients();
+export const BurgerConstructor: FC = () => {
+  const { selectedBun, selectedIngredients } = useSelector(
+    (state: RootState) => state.selectedIngredients
+  );
 
   return (
     <section className={classes["burger-constructor"]}>

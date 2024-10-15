@@ -1,7 +1,11 @@
-import { ComponentProps, FC } from "react";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
+import { setSelectedBun } from "services/reducers/selectedIngredientsSlice";
+
 import type { TIngredient } from "api/types";
+import type { ComponentProps, FC } from "react";
+import type { AppDispatch } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./bun.module.css";
@@ -12,7 +16,11 @@ type TBunProps = {
 };
 
 export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
-  const { setSelectedBun } = useSelectedIngredients();
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleClose = useCallback(() => {
+    dispatch(setSelectedBun(null));
+  }, [dispatch]);
 
   if (!bun) {
     return (
@@ -36,7 +44,7 @@ export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
         text={bun.name}
         thumbnail={bun.image}
         isLocked
-        handleClose={() => setSelectedBun?.(null)}
+        handleClose={handleClose}
       />
     </div>
   );
