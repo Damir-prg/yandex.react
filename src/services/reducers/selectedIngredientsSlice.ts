@@ -43,7 +43,7 @@ const selectedIngredientsSlice = createSlice({
     },
     setViewedIngredient(
       state: TSliceSelectedIngredients,
-      action: PayloadAction<TIngredient>
+      action: PayloadAction<TIngredient | null>
     ) {
       state.viewedIngredient = action.payload;
     },

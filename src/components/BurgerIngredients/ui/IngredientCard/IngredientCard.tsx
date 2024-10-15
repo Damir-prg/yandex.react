@@ -1,15 +1,16 @@
 import { useCallback, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { setViewedIngredient } from "services/reducers/selectedIngredientsSlice";
 import { IngredientDetails } from "components/IngredientsDetails";
 import { Modal } from "components/Modal";
 
 import type { FC } from "react";
 import type { TIngredient } from "api/types";
-import type { RootState } from "services/store/store";
+import type { RootState, AppDispatch } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./ingredientCard.module.css";
@@ -20,13 +21,23 @@ type TIngredientsProps = {
 
 export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
   const [modalState, setModalState] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
   const { selectedBun, selectedIngredients } = useSelector(
     (state: RootState) => state.selectedIngredients
   );
 
-  const handleClick = useCallback(() => {
-    setModalState(true);
-  }, []);
+  const handleModalOpen = useCallback(
+    (item: TIngredient) => {
+      dispatch(setViewedIngredient(item));
+      setModalState(true);
+    },
+    [dispatch]
+  );
+
+  const handleModalClose = useCallback(() => {
+    dispatch(setViewedIngredient(null));
+    setModalState(false);
+  }, [dispatch]);
 
   const count = useMemo(() => {
     if (selectedBun && selectedBun._id === ingredient._id) {
@@ -43,7 +54,9 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
 
   return (
     <>
-      <div className={classes["card-wrapper"]} onClick={handleClick}>
+      <div
+        className={classes["card-wrapper"]}
+        onClick={() => handleModalOpen(ingredient)}>
         {count ? <Counter count={count} size="default" /> : null}
         <img
           src={ingredient.image}
@@ -68,7 +81,7 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
       </div>
       <Modal
         isOpen={modalState}
-        onClose={() => setModalState(false)}
+        onClose={handleModalClose}
         title="Детали ингредиента">
         <IngredientDetails ingredient={ingredient} />
       </Modal>
