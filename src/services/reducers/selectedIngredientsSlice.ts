@@ -26,14 +26,21 @@ const selectedIngredientsSlice = createSlice({
   name: "selectedIngredients",
   initialState,
   reducers: {
-    setSelectedIngredients(
-      state: TSliceSelectedIngredients,
-      action: PayloadAction<Array<TIngredient>>
-    ) {
-      state.selectedIngredients = action.payload.map((ingredient) => ({
-        ...ingredient,
-        __key: uuidv4(),
-      }));
+    setSelectedIngredients: {
+      reducer: (
+        state: TSliceSelectedIngredients,
+        action: PayloadAction<Array<TSelectedIngredient>>
+      ) => {
+        state.selectedIngredients = action.payload;
+      },
+      prepare: (items: Array<TIngredient>) => {
+        return {
+          payload: items.map((ingredient) => ({
+            ...ingredient,
+            __key: uuidv4(),
+          })),
+        };
+      },
     },
     setSelectedBun(
       state: TSliceSelectedIngredients,
@@ -47,11 +54,16 @@ const selectedIngredientsSlice = createSlice({
     ) {
       state.viewedIngredient = action.payload;
     },
-    addSelectedIngredient(
-      state: TSliceSelectedIngredients,
-      action: PayloadAction<TIngredient>
-    ) {
-      state.selectedIngredients.push({ ...action.payload, __key: uuidv4() });
+    addSelectedIngredient: {
+      reducer: (
+        state: TSliceSelectedIngredients,
+        action: PayloadAction<TSelectedIngredient>
+      ) => {
+        state.selectedIngredients.push(action.payload);
+      },
+      prepare: (item: TIngredient) => {
+        return { payload: { ...item, __key: uuidv4() } };
+      },
     },
     removeSelectedIngredient(
       state: TSliceSelectedIngredients,

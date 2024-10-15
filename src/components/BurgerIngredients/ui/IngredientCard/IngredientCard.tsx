@@ -1,17 +1,16 @@
 import { useCallback, useMemo, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setViewedIngredient } from "services/reducers/selectedIngredientsSlice";
+import { useAppDispatch, useAppSelector } from "services/hooks";
 import { IngredientDetails } from "components/IngredientsDetails";
 import { Modal } from "components/Modal";
 
 import type { FC } from "react";
 import type { TIngredient } from "api/types";
-import type { RootState, AppDispatch } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./ingredientCard.module.css";
@@ -22,9 +21,9 @@ type TIngredientsProps = {
 
 export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const dispatch: AppDispatch = useDispatch();
-  const { selectedBun, selectedIngredients } = useSelector(
-    (state: RootState) => state.selectedIngredients
+  const dispatch = useAppDispatch();
+  const { selectedBun, selectedIngredients } = useAppSelector(
+    (state) => state.selectedIngredients
   );
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "ingredient",

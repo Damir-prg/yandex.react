@@ -1,21 +1,19 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useRef } from "react";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDrop, useDrag } from "react-dnd";
+import { useAppDispatch } from "services/hooks";
 import {
   removeSelectedIngredient,
   sortSelectedIngredients,
 } from "services/reducers/selectedIngredientsSlice";
 
 import type { FC } from "react";
-import type { AppDispatch } from "services/store/store";
 import type { TSelectedIngredient } from "types/selectedIngredients";
 
 import classes from "./Ingredient.module.css";
-import React from "react";
-import { useDrop, useDrag } from "react-dnd";
 
 type TIngredientsProps = {
   selectedIngredient: TSelectedIngredient;
@@ -26,8 +24,8 @@ export const Ingredient: FC<TIngredientsProps> = ({
   selectedIngredient,
   currentIndex,
 }) => {
-  const dispatch: AppDispatch = useDispatch();
-  const ref = React.useRef<HTMLLIElement>(null);
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLLIElement>(null);
 
   const [, drop] = useDrop({
     accept: "constructor-ingredient",

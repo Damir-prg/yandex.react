@@ -1,15 +1,13 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { AppHeader } from "components/AppHeader";
 import { ConstructorPage } from "pages/Constructor/ConstructorPage";
 import { loadIngredients } from "services/reducers/ingredientsSlice";
-
-import type { AppDispatch } from "services/store/store";
+import { useAppDispatch } from "services/hooks";
 
 import classes from "./app.module.css";
 
 function App() {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Загрузка всех ингредиентов
   useEffect(() => {

@@ -1,18 +1,17 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { setOrderItems } from "services/reducers/orderSlice";
+import { useAppDispatch, useAppSelector } from "services/hooks";
 import { Ingredient } from "../Ingredient/Ingredient";
 
 import type { FC } from "react";
-import type { RootState } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./ingredients.module.css";
 
 export const Ingredients: FC = () => {
-  const dispatch = useDispatch();
-  const { selectedIngredients, selectedBun } = useSelector(
-    (state: RootState) => state.selectedIngredients
+  const dispatch = useAppDispatch();
+  const { selectedIngredients, selectedBun } = useAppSelector(
+    (state) => state.selectedIngredients
   );
 
   useEffect(() => {

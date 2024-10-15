@@ -1,18 +1,18 @@
 import { FC, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 import {
   setSelectedBun,
   addSelectedIngredient,
 } from "services/reducers/selectedIngredientsSlice";
+import { useAppDispatch } from "services/hooks";
 import { ConstructorTotal, Bun, Ingredients } from "./ui";
 
 import type { TIngredient } from "api/types";
 
 import classes from "./burgerConstructor.module.css";
-import { useDrop } from "react-dnd";
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onDrop = useCallback((item: { ingredient: TIngredient }) => {
     const { ingredient } = item;

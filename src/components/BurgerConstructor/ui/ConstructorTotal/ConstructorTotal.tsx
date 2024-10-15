@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   CurrencyIcon,
   Button,
@@ -7,28 +6,35 @@ import {
 import { Modal } from "components/Modal";
 import { OrderDetails } from "components/OrderDetails";
 import { postOrder } from "services/reducers/orderSlice";
+import { useAppSelector, useAppDispatch } from "services/hooks";
+import {
+  setSelectedBun,
+  setSelectedIngredients,
+} from "services/reducers/selectedIngredientsSlice";
 
 import type { FC, FormEventHandler } from "react";
-import type { AppDispatch, RootState } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./constructorTotal.module.css";
 
 export const ConstructorTotal: FC = () => {
   const [modalState, setModalState] = useState(false);
-  const { selectedBun, selectedIngredients } = useSelector(
-    (state: RootState) => state.selectedIngredients
+  const { selectedBun, selectedIngredients } = useAppSelector(
+    (state) => state.selectedIngredients
   );
-  const { loading, name, error, order, orderItems } = useSelector(
-    (state: RootState) => state.order
+  const { loading, name, error, order, orderItems } = useAppSelector(
+    (state) => state.order
   );
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const createOrder = useCallback(async (orderItems: Array<string>) => {
     try {
       await dispatch(postOrder({ ingredients: orderItems }));
 
       setModalState(true);
+
+      dispatch(setSelectedBun(null));
+      dispatch(setSelectedIngredients([]));
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +78,7 @@ export const ConstructorTotal: FC = () => {
           {totalPrice}
           <CurrencyIcon type="primary" />
         </span>
-        <Button htmlType="submit">
+        <Button htmlType="submit" disabled={orderItems.length === 0}>
           {loading ? "Оформление заказа..." : "Оформить заказ"}
         </Button>
       </form>

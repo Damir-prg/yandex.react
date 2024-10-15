@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "services/hooks";
 import { Spinner } from "components/Spinner";
 import { ETabs } from "./types/tabs.enum";
 import {
@@ -8,15 +8,11 @@ import {
   IngredientsCategoryGroup,
 } from "./ui";
 
-import type { RootState } from "services/store/store";
-
 import classes from "./burgerIngredients.module.css";
 
 export const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState<ETabs>(ETabs.BUN);
-  const { ingredients, loading } = useSelector(
-    (state: RootState) => state.ingredients
-  );
+  const { ingredients, loading } = useAppSelector((state) => state.ingredients);
   const bunsRef = useRef<HTMLDivElement>(null);
   const saucesRef = useRef<HTMLDivElement>(null);
   const mainsRef = useRef<HTMLDivElement>(null);

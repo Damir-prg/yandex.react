@@ -1,10 +1,9 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useMemo } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setSelectedBun } from "services/reducers/selectedIngredientsSlice";
+import { useAppDispatch, useAppSelector } from "services/hooks";
 
 import type { ComponentProps, FC } from "react";
-import type { AppDispatch, RootState } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./bun.module.css";
@@ -14,14 +13,23 @@ type TBunProps = {
 };
 
 export const Bun: FC<TBunProps> = ({ orientation }) => {
-  const dispatch: AppDispatch = useDispatch();
-  const { selectedBun } = useSelector(
-    (state: RootState) => state.selectedIngredients
-  );
+  const dispatch = useAppDispatch();
+  const { selectedBun } = useAppSelector((state) => state.selectedIngredients);
 
   const handleClose = useCallback(() => {
     dispatch(setSelectedBun(null));
   }, [dispatch]);
+
+  const bunTitle = useMemo(() => {
+    switch (orientation) {
+      case "top":
+        return selectedBun?.name + " (верх)";
+      case "bottom":
+        return selectedBun?.name + " (низ)";
+      default:
+        return selectedBun?.name || "";
+    }
+  }, [selectedBun, orientation]);
 
   if (!selectedBun) {
     return (
@@ -42,7 +50,7 @@ export const Bun: FC<TBunProps> = ({ orientation }) => {
       <ConstructorElement
         type={orientation}
         price={selectedBun.price}
-        text={selectedBun.name}
+        text={bunTitle}
         thumbnail={selectedBun.image}
         isLocked
         handleClose={handleClose}

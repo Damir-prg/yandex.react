@@ -1,3 +1,5 @@
+import { checkResponse } from "utils/checkResponse";
+
 import type {
   TIngredient,
   TApiResponse,
@@ -13,10 +15,8 @@ export const ingredientsApi = {
    */
   getAll: async (): Promise<TApiResponse<Array<TIngredient>>> => {
     const response = await fetch(`${apiUrl}/ingredients`);
-    if (response.ok) {
-      return response.json();
-    }
-    return { success: false };
+
+    return checkResponse(response);
   },
 
   postOrder: async (data: TApiOrderRequest): Promise<TApiOrderResponse> => {
@@ -28,10 +28,6 @@ export const ingredientsApi = {
       },
     });
 
-    if (response.ok) {
-      return response.json();
-    }
-
-    return { success: false };
+    return checkResponse(response);
   },
 };
