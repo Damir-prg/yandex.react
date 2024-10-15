@@ -21,8 +21,11 @@ export const ingredientsApi = {
 
   postOrder: async (data: TApiOrderRequest): Promise<TApiOrderResponse> => {
     const response = await fetch(`${apiUrl}/orders`, {
-      method: "post",
+      method: "POST",
       body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     if (response.ok) {

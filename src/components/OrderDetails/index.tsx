@@ -3,11 +3,11 @@ import { donePng } from "images";
 
 import classes from "./orderDetails.module.css";
 
-export const OrderDetails: FC = () => {
+export const OrderDetails: FC<{ orderNumber: number }> = ({ orderNumber }) => {
   return (
     <div className={classes["order-details-wrapper"]}>
       <div className={classes["order-details-header"]}>
-        <h2 className="text text_type_digits-large">034536</h2>
+        <h2 className="text text_type_digits-large">{orderNumber}</h2>
         <p className="text text_type_main-medium">идентификатор заказа</p>
       </div>
       <img src={donePng} alt="Иконка готового заказа" />
