@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useDrag } from "react-dnd";
 import {
   CurrencyIcon,
   Counter,
@@ -25,6 +26,13 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
   const { selectedBun, selectedIngredients } = useSelector(
     (state: RootState) => state.selectedIngredients
   );
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "ingredient",
+    item: { ingredient },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
 
   const handleModalOpen = useCallback(
     (item: TIngredient) => {
@@ -55,7 +63,11 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
   return (
     <>
       <div
-        className={classes["card-wrapper"]}
+        ref={drag}
+        className={classNames(
+          classes["card-wrapper"],
+          isDragging && classes["card-wrapper_drag"]
+        )}
         onClick={() => handleModalOpen(ingredient)}>
         {count ? <Counter count={count} size="default" /> : null}
         <img

@@ -1,28 +1,29 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setSelectedBun } from "services/reducers/selectedIngredientsSlice";
 
-import type { TIngredient } from "api/types";
 import type { ComponentProps, FC } from "react";
-import type { AppDispatch } from "services/store/store";
+import type { AppDispatch, RootState } from "services/store/store";
 
 import classNames from "classnames";
 import classes from "./bun.module.css";
 
 type TBunProps = {
-  bun: TIngredient | null;
   orientation: Required<ComponentProps<typeof ConstructorElement>["type"]>;
 };
 
-export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
+export const Bun: FC<TBunProps> = ({ orientation }) => {
   const dispatch: AppDispatch = useDispatch();
+  const { selectedBun } = useSelector(
+    (state: RootState) => state.selectedIngredients
+  );
 
   const handleClose = useCallback(() => {
     dispatch(setSelectedBun(null));
   }, [dispatch]);
 
-  if (!bun) {
+  if (!selectedBun) {
     return (
       <div
         className={classNames(
@@ -40,9 +41,9 @@ export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
     <div className={classes["bun-rewrite"]}>
       <ConstructorElement
         type={orientation}
-        price={bun.price}
-        text={bun.name}
-        thumbnail={bun.image}
+        price={selectedBun.price}
+        text={selectedBun.name}
+        thumbnail={selectedBun.image}
         isLocked
         handleClose={handleClose}
       />
