@@ -4,9 +4,9 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { postOrder } from "services/reducers/orderSlice";
 import { Modal } from "components/Modal";
 import { OrderDetails } from "components/OrderDetails";
+import { postOrder } from "services/reducers/orderSlice";
 
 import type { FC, FormEventHandler } from "react";
 import type { AppDispatch, RootState } from "services/store/store";

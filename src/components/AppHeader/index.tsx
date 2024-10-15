@@ -17,9 +17,7 @@ enum EHeaderButton {
 }
 
 export const AppHeader = () => {
-  const [activeButton, setActiveButton] = useState<EHeaderButton>(
-    EHeaderButton.CONSTRUCTOR
-  );
+  const [activeButton, _] = useState<EHeaderButton>(EHeaderButton.CONSTRUCTOR);
 
   return (
     <header className={classes["header"]}>
