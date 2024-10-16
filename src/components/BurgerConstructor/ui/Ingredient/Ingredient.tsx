@@ -1,36 +1,62 @@
+import { useCallback, useRef } from "react";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDrop, useDrag } from "react-dnd";
+import { useAppDispatch } from "services/hooks";
 import {
-  TSelectedIngredientsWithKey,
-  useSelectedIngredients,
-} from "contexts/SelectedIngredients";
-import { FC, useCallback } from "react";
+  removeSelectedIngredient,
+  sortSelectedIngredients,
+} from "services/reducers/selectedIngredientsSlice";
+
+import type { FC } from "react";
+import type { TSelectedIngredient } from "types/selectedIngredients";
 
 import classes from "./Ingredient.module.css";
 
 type TIngredientsProps = {
-  selectedIngredient: TSelectedIngredientsWithKey;
+  selectedIngredient: TSelectedIngredient;
+  currentIndex: number;
 };
 
-export const Ingredient: FC<TIngredientsProps> = ({ selectedIngredient }) => {
-  const { setSelectedIngredients } = useSelectedIngredients();
+export const Ingredient: FC<TIngredientsProps> = ({
+  selectedIngredient,
+  currentIndex,
+}) => {
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLLIElement>(null);
+
+  const [, drop] = useDrop({
+    accept: "constructor-ingredient",
+    hover(draggedItem: { index: number }) {
+      if (draggedItem.index === currentIndex) return;
+      dispatch(
+        sortSelectedIngredients({
+          fromIndex: draggedItem.index,
+          toIndex: currentIndex,
+        })
+      );
+      draggedItem.index = currentIndex;
+    },
+  });
+
+  const [, drag] = useDrag({
+    type: "constructor-ingredient",
+    item: { index: currentIndex },
+  });
+
+  drag(drop(ref));
 
   const handleClose = useCallback(
-    (item: TSelectedIngredientsWithKey) =>
-      setSelectedIngredients?.((prev) => {
-        if (!prev || prev?.length === 1) {
-          return null;
-        }
-
-        return prev.filter((prevItem) => prevItem.__key !== item.__key);
-      }),
-    [setSelectedIngredients]
+    ({ __key }: TSelectedIngredient) => {
+      dispatch(removeSelectedIngredient(__key));
+    },
+    [dispatch]
   );
 
   return (
-    <li className={classes["selected-ingredient"]}>
+    <li ref={ref} className={classes["selected-ingredient"]}>
       <DragIcon type="primary" />
       <ConstructorElement
         price={selectedIngredient.price}

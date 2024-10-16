@@ -1,20 +1,37 @@
-import { ComponentProps, FC } from "react";
+import { useCallback, useMemo } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
-import type { TIngredient } from "api/types";
+import { setSelectedBun } from "services/reducers/selectedIngredientsSlice";
+import { useAppDispatch, useAppSelector } from "services/hooks";
+
+import type { ComponentProps, FC } from "react";
 
 import classNames from "classnames";
 import classes from "./bun.module.css";
 
 type TBunProps = {
-  bun: TIngredient | null;
   orientation: Required<ComponentProps<typeof ConstructorElement>["type"]>;
 };
 
-export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
-  const { setSelectedBun } = useSelectedIngredients();
+export const Bun: FC<TBunProps> = ({ orientation }) => {
+  const dispatch = useAppDispatch();
+  const { selectedBun } = useAppSelector((state) => state.selectedIngredients);
 
-  if (!bun) {
+  const handleClose = useCallback(() => {
+    dispatch(setSelectedBun(null));
+  }, [dispatch]);
+
+  const bunTitle = useMemo(() => {
+    switch (orientation) {
+      case "top":
+        return selectedBun?.name + " (верх)";
+      case "bottom":
+        return selectedBun?.name + " (низ)";
+      default:
+        return selectedBun?.name || "";
+    }
+  }, [selectedBun, orientation]);
+
+  if (!selectedBun) {
     return (
       <div
         className={classNames(
@@ -32,11 +49,11 @@ export const Bun: FC<TBunProps> = ({ bun, orientation }) => {
     <div className={classes["bun-rewrite"]}>
       <ConstructorElement
         type={orientation}
-        price={bun.price}
-        text={bun.name}
-        thumbnail={bun.image}
+        price={selectedBun.price}
+        text={bunTitle}
+        thumbnail={selectedBun.image}
         isLocked
-        handleClose={() => setSelectedBun?.(null)}
+        handleClose={handleClose}
       />
     </div>
   );

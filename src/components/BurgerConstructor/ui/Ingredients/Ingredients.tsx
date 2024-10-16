@@ -1,15 +1,29 @@
-import { FC } from "react";
-import { TSelectedIngredientsWithKey } from "contexts/SelectedIngredients";
+import { useEffect } from "react";
+import { setOrderItems } from "services/reducers/orderSlice";
+import { useAppDispatch, useAppSelector } from "services/hooks";
 import { Ingredient } from "../Ingredient/Ingredient";
+
+import type { FC } from "react";
 
 import classNames from "classnames";
 import classes from "./ingredients.module.css";
 
-type TIngredientsProps = {
-  selectedIngredients: Array<TSelectedIngredientsWithKey> | null;
-};
+export const Ingredients: FC = () => {
+  const dispatch = useAppDispatch();
+  const { selectedIngredients, selectedBun } = useAppSelector(
+    (state) => state.selectedIngredients
+  );
 
-export const Ingredients: FC<TIngredientsProps> = ({ selectedIngredients }) => {
+  useEffect(() => {
+    const ingredientsIds = selectedIngredients?.map((item) => item._id) || [];
+    const bunId = selectedBun ? selectedBun._id : null;
+
+    if (selectedIngredients || selectedBun) {
+      const result = bunId ? [bunId, ...ingredientsIds, bunId] : ingredientsIds;
+      dispatch(setOrderItems(result));
+    }
+  }, [selectedIngredients, selectedBun, dispatch]);
+
   if (!selectedIngredients) {
     return (
       <div
@@ -25,8 +39,12 @@ export const Ingredients: FC<TIngredientsProps> = ({ selectedIngredients }) => {
 
   return (
     <ul className={classes["selected-ingredients-wrapper"]}>
-      {selectedIngredients.map((item) => (
-        <Ingredient selectedIngredient={item} key={item.__key} />
+      {selectedIngredients.map((item, index) => (
+        <Ingredient
+          selectedIngredient={item}
+          key={item.__key}
+          currentIndex={index}
+        />
       ))}
     </ul>
   );

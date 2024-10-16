@@ -13,5 +13,9 @@
 - Modal ✅
 - ModalOverlay ✅
 - OrderDetails ✅
+- Redux-store ✅
+- DnD-events ✅
 
 ## API request for load ingredients ✅
+
+## API request for create order ✅

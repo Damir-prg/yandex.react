@@ -1,5 +1,6 @@
-import { FC } from "react";
 import { TIconProps } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
+
+import type { FC } from "react";
 
 import classNames from "classnames";
 import classes from "./headerButton.module.css";
@@ -15,7 +16,6 @@ export const HeaderButton: FC<THeaderButtonProps> = ({
   title,
   isActive,
 }) => {
-  // Установка стилей для компонента
   const titleClassName = classNames(`text text_type_main-default`, {
     text_color_inactive: !isActive,
   });

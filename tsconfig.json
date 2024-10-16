@@ -26,7 +26,9 @@
       "api/*": ["src/api/*"],
       "contexts/*": ["src/contexts/*"],
       "types/*": ["src/types/*"],
-      "images": ["src/images/index.ts"]
+      "images": ["src/images/index.ts"],
+      "services/*": ["src/services/*"],
+      "utils/*": ["src/utils/*"]
     }
   },
   "include": ["src"],

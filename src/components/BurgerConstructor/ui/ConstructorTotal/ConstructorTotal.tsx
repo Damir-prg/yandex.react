@@ -1,18 +1,44 @@
-import { FC, FormEventHandler, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelectedIngredients } from "contexts/SelectedIngredients";
 import { Modal } from "components/Modal";
 import { OrderDetails } from "components/OrderDetails";
+import { postOrder } from "services/reducers/orderSlice";
+import { useAppSelector, useAppDispatch } from "services/hooks";
+import {
+  setSelectedBun,
+  setSelectedIngredients,
+} from "services/reducers/selectedIngredientsSlice";
+
+import type { FC, FormEventHandler } from "react";
 
 import classNames from "classnames";
 import classes from "./constructorTotal.module.css";
 
 export const ConstructorTotal: FC = () => {
   const [modalState, setModalState] = useState(false);
-  const { selectedBun, selectedIngredients } = useSelectedIngredients();
+  const { selectedBun, selectedIngredients } = useAppSelector(
+    (state) => state.selectedIngredients
+  );
+  const { loading, name, error, order, orderItems } = useAppSelector(
+    (state) => state.order
+  );
+  const dispatch = useAppDispatch();
+
+  const createOrder = useCallback(async (orderItems: Array<string>) => {
+    try {
+      await dispatch(postOrder({ ingredients: orderItems }));
+
+      setModalState(true);
+
+      dispatch(setSelectedBun(null));
+      dispatch(setSelectedIngredients([]));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const totalPrice = useMemo(() => {
     let total = 0;
@@ -32,13 +58,16 @@ export const ConstructorTotal: FC = () => {
 
   const formSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    setModalState(true);
+    createOrder(orderItems);
   };
 
   return (
     <>
-      <Modal isOpen={modalState} onClose={() => setModalState(false)}>
-        <OrderDetails />
+      <Modal
+        title={name || ""}
+        isOpen={modalState}
+        onClose={() => setModalState(false)}>
+        {!error && order ? <OrderDetails orderNumber={order.number} /> : error}
       </Modal>
       <form onSubmit={formSubmit} className={classes["total-form"]}>
         <span
@@ -49,7 +78,9 @@ export const ConstructorTotal: FC = () => {
           {totalPrice}
           <CurrencyIcon type="primary" />
         </span>
-        <Button htmlType="submit">Оформить заказ</Button>
+        <Button htmlType="submit" disabled={orderItems.length === 0}>
+          {loading ? "Оформление заказа..." : "Оформить заказ"}
+        </Button>
       </form>
     </>
   );
