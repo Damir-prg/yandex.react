@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
   RouteWrapper,
+  ProfileRouteWrapper,
   HomePage,
   ForgotPasswordPage,
   IngredientByIdPage,
@@ -34,7 +35,11 @@ function App() {
           element={<ForgotPasswordPage />}
         />
         <Route path={ERoutes.RESET_PASSWORD} element={<ResetPasswordPage />} />
-        <Route path={ERoutes.PROFILE} element={<ProfilePage />} />
+        <Route path={ERoutes.PROFILE} element={<ProfileRouteWrapper />}>
+          <Route path={ERoutes.PROFILE_HOME} element={<ProfilePage />} />
+          <Route path={ERoutes.PROFILE_ORDERS} element={<div />} />
+          <Route path={ERoutes.PROFILE_ORDER_BY_ID} element={<div />} />
+        </Route>
         <Route
           path={ERoutes.INGREDIENT_BY_ID}
           element={<IngredientByIdPage />}

@@ -6,7 +6,7 @@ import classes from "./homePage.module.css";
 
 export const HomePage = () => {
   return (
-    <PageContainer className={classes["constructor-page"]}>
+    <PageContainer className={classes["home-page"]}>
       <BurgerIngredients />
       <BurgerConstructor />
     </PageContainer>
