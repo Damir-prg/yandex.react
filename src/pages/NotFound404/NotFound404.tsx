@@ -1,12 +1,12 @@
+import { useNavigate } from "react-router-dom";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ERoutes } from "utils/routes";
 import { PageContainer } from "../ui";
 
 import type { FC } from "react";
 
 import classes from "./notFound404.module.css";
 import classNames from "classnames";
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useNavigate } from "react-router-dom";
-import { ERoutes } from "utils/routes";
 
 export const NotFound404: FC = () => {
   const navigate = useNavigate();
