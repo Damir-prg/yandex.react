@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
   RouteWrapper,
-  ConstructorPage,
+  HomePage,
   ForgotPasswordPage,
   IngredientByIdPage,
   LoginPage,
@@ -26,7 +26,7 @@ function App() {
   return (
     <Routes>
       <Route path={ERoutes.BASE} element={<RouteWrapper />}>
-        <Route path={ERoutes.HOME} element={<ConstructorPage />} />
+        <Route path={ERoutes.HOME} element={<HomePage />} />
         <Route path={ERoutes.LOGIN} element={<LoginPage />} />
         <Route path={ERoutes.REGISTER} element={<RegisterPage />} />
         <Route
