@@ -39,8 +39,8 @@ function App() {
           path={ERoutes.INGREDIENT_BY_ID}
           element={<IngredientByIdPage />}
         />
+        <Route path="*" element={<NotFound404 />} />
       </Route>
-      <Route path="*" element={<NotFound404 />} />
     </Routes>
   );
 }
