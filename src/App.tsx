@@ -1,11 +1,18 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { AppHeader } from "components/AppHeader";
-import { ConstructorPage } from "pages/Constructor/ConstructorPage";
+import {
+  RouteWrapper,
+  ConstructorPage,
+  ForgotPasswordPage,
+  IngredientByIdPage,
+  LoginPage,
+  NotFound404,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
+} from "pages/index";
 import { loadIngredients } from "services/reducers/ingredientsSlice";
 import { useAppDispatch } from "services/hooks";
-
-import classes from "./app.module.css";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -16,19 +23,18 @@ function App() {
   }, []);
 
   return (
-    <main className={classes["main-wrapper"]}>
-      <AppHeader />
-      <Routes>
-        <Route path="/" element={<ConstructorPage />} />
-        <Route path="/login" element={<div />} />
-        <Route path="/register" element={<div />} />
-        <Route path="/forgot-password" element={<div />} />
-        <Route path="/reset-password" element={<div />} />
-        <Route path="/profile" element={<div />} />
-        <Route path="/ingredients/:id" element={<div />} />
-        <Route path="*" element={<div />} />
-      </Routes>
-    </main>
+    <Routes>
+      <Route path="/" element={<RouteWrapper />}>
+        <Route path="" element={<ConstructorPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="reset-password" element={<ResetPasswordPage />} />
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="ingredients/:id" element={<IngredientByIdPage />} />
+      </Route>
+      <Route path="*" element={<NotFound404 />} />
+    </Routes>
   );
 }
 

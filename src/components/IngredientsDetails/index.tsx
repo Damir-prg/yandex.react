@@ -21,7 +21,7 @@ export const IngredientDetails: FC<TIngredientDetailsProps> = ({
       <ul className={classes["ingredients-details-description"]}>
         <li className={classes["ingredients-details-description-item"]}>
           <span className="text text_type_main-default text_color_inactive">
-            Колории, калл
+            Калории, калл
           </span>
           <p className="text text_type_main-default text_color_inactive">
             {ingredient.calories}
