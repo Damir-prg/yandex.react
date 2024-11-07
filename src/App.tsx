@@ -13,6 +13,7 @@ import {
 } from "pages/index";
 import { loadIngredients } from "services/reducers/ingredientsSlice";
 import { useAppDispatch } from "services/hooks";
+import { ERoutes } from "utils/routes";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -24,14 +25,20 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<RouteWrapper />}>
-        <Route path="" element={<ConstructorPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="reset-password" element={<ResetPasswordPage />} />
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="ingredients/:id" element={<IngredientByIdPage />} />
+      <Route path={ERoutes.BASE} element={<RouteWrapper />}>
+        <Route path={ERoutes.HOME} element={<ConstructorPage />} />
+        <Route path={ERoutes.LOGIN} element={<LoginPage />} />
+        <Route path={ERoutes.REGISTER} element={<RegisterPage />} />
+        <Route
+          path={ERoutes.FORGOT_PASSWORD}
+          element={<ForgotPasswordPage />}
+        />
+        <Route path={ERoutes.RESET_PASSWORD} element={<ResetPasswordPage />} />
+        <Route path={ERoutes.PROFILE} element={<ProfilePage />} />
+        <Route
+          path={ERoutes.INGREDIENT_BY_ID}
+          element={<IngredientByIdPage />}
+        />
       </Route>
       <Route path="*" element={<NotFound404 />} />
     </Routes>
