@@ -1,5 +1,5 @@
 /* Wrappers */
-.login-form {
+.register-form {
   width: 90%;
   max-width: 480px;
 
@@ -22,7 +22,7 @@
   }
 }
 
-.login-content {
+.register-content {
   display: flex;
   flex-direction: column;
 
@@ -31,27 +31,27 @@
   gap: 24px;
 }
 
-.login-footer {
+.register-footer {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
 /* Elements */
-.login-button {
+.register-button {
   width: fit-content;
 }
 
-.login-text-center {
+.register-text-center {
   text-align: center;
 }
 
-.login-link {
+.register-link {
   color: #4c4cff;
   text-decoration: none;
   transition: color 0.075s ease;
 }
 
-.login-link:hover {
+.register-link:hover {
   color: #4747de;
 }
