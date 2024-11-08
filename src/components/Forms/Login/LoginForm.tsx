@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ERoutes } from "utils/routes";
+import { authApi } from "api/index";
+import { useAppDispatch } from "services/hooks";
+import { setCookie } from "utils/cookie";
+import { setUser, setAuthStatus } from "services/reducers/userSlice";
 
 import type { FC, FormEventHandler } from "react";
 
@@ -12,14 +16,35 @@ import classes from "./loginForm.module.css";
 import classNames from "classnames";
 
 export const LoginForm: FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordType, setPasswordType] = useState<"password" | "text">(
     "password"
   );
 
+  const loginEvent = async () => {
+    try {
+      const response = await authApi.login({ email, password });
+
+      if (response.success) {
+        setCookie("accessToken", response.accessToken, 1);
+        setCookie("refreshToken", response.refreshToken, 1);
+
+        dispatch(setUser(response.user));
+        dispatch(setAuthStatus(true));
+
+        navigate(ERoutes.BASE);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    loginEvent();
   };
 
   const onEmailChanged = (event: React.ChangeEvent<HTMLInputElement>) => {

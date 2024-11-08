@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ingredientsApi } from "api/ingredients";
+import { ingredientsApi } from "api/index";
 
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { TApiResponse, TIngredient } from "api/types";
+import type { TIngredientResponse, TIngredient } from "api/types";
 
 type TSliceIngredients = {
   ingredients: Array<TIngredient>;
@@ -34,7 +34,7 @@ const ingredientsSlice = createSlice({
         loadIngredients.fulfilled,
         (
           state: TSliceIngredients,
-          action: PayloadAction<TApiResponse<Array<TIngredient>>>
+          action: PayloadAction<TIngredientResponse>
         ) => {
           state.loading = false;
 

@@ -6,4 +6,4 @@ export { NotFound404 } from "./NotFound404/NotFound404";
 export { ProfilePage } from "./Profile/ProfilePage";
 export { RegisterPage } from "./Register/RegisterPage";
 export { ResetPasswordPage } from "./ResetPassword/ResetPasswordPage";
-export { RouteWrapper, ProfileRouteWrapper } from "./ui";
+export { RouteWrapper, ProfileRouteWrapper, ProtectedRoute } from "./ui";

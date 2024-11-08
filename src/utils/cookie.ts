@@ -11,7 +11,7 @@ export const setCookie = (
   document.cookie = key + "=" + value + ";" + expires + ";path=/"; // запись значения в Cookie
 };
 
-export const getCookie = (key: TCookieKeys): string | null => {
+export const getCookie = (key: TCookieKeys): string => {
   const decodedCookie = decodeURIComponent(document.cookie);
   const cookies = decodedCookie.split(";");
   for (let i = 0; i < cookies.length; i++) {
@@ -23,5 +23,5 @@ export const getCookie = (key: TCookieKeys): string | null => {
       return cookie.substring(key.length + 1, cookie.length);
     }
   }
-  return null;
+  return "";
 };

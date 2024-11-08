@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ERoutes } from "utils/routes";
+import { authApi } from "api/index";
+import { setCookie } from "utils/cookie";
+import { setUser, setAuthStatus } from "services/reducers/userSlice";
 
 import type { FormEventHandler, FC } from "react";
 
 import classes from "./registerForm.module.css";
 import classNames from "classnames";
+import { useAppDispatch } from "services/hooks";
 
 export const RegisterForm: FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -19,8 +25,23 @@ export const RegisterForm: FC = () => {
     "password"
   );
 
+  const registerEvent = async (): Promise<void> => {
+    const response = await authApi.register({ name, email, password });
+
+    if (response.success) {
+      setCookie("accessToken", response.accessToken, 1);
+      setCookie("refreshToken", response.refreshToken, 1);
+
+      dispatch(setUser(response.user));
+      dispatch(setAuthStatus(true));
+
+      navigate(ERoutes.BASE);
+    }
+  };
+
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    registerEvent();
   };
 
   const onNameChanged = (event: React.ChangeEvent<HTMLInputElement>) => {

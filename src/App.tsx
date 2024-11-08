@@ -11,6 +11,7 @@ import {
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
+  ProtectedRoute,
 } from "pages/index";
 import { loadIngredients } from "services/reducers/ingredientsSlice";
 import { useAppDispatch } from "services/hooks";
@@ -35,7 +36,9 @@ function App() {
           element={<ForgotPasswordPage />}
         />
         <Route path={ERoutes.RESET_PASSWORD} element={<ResetPasswordPage />} />
-        <Route path={ERoutes.PROFILE} element={<ProfileRouteWrapper />}>
+        <Route
+          path={ERoutes.PROFILE}
+          element={<ProtectedRoute element={<ProfileRouteWrapper />} />}>
           <Route path={ERoutes.PROFILE_HOME} element={<ProfilePage />} />
           <Route path={ERoutes.PROFILE_ORDERS} element={<div />} />
           <Route path={ERoutes.PROFILE_ORDER_BY_ID} element={<div />} />
