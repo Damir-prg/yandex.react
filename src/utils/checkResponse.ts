@@ -3,5 +3,5 @@ export const checkResponse = (res: Response) => {
     return res.json();
   }
 
-  return { success: false };
+  return res.json().then((err) => Promise.reject(err));
 };

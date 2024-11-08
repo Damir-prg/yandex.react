@@ -1,4 +1,5 @@
 import { checkResponse } from "utils/checkResponse";
+import { apiEndpoints } from "../api";
 
 import type {
   TIngredient,
@@ -7,20 +8,21 @@ import type {
   TApiOrderResponse,
 } from "api/types";
 
-const apiUrl = "https://norma.nomoreparties.space/api";
-
 export const ingredientsApi = {
   /**
    * Получение всех ингредиентов
    */
   getAll: async (): Promise<TApiResponse<Array<TIngredient>>> => {
-    const response = await fetch(`${apiUrl}/ingredients`);
+    const response = await fetch(apiEndpoints.ingredients);
 
     return checkResponse(response);
   },
 
+  /**
+   * Создание заказа
+   */
   postOrder: async (data: TApiOrderRequest): Promise<TApiOrderResponse> => {
-    const response = await fetch(`${apiUrl}/orders`, {
+    const response = await fetch(apiEndpoints.orders, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
