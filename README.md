@@ -5,6 +5,17 @@
 - yarn/npm i
 - yarn dev/npm run dev
 
+## pages ✅
+
+- Home ✅
+- Profile ✅
+- 404 ✅
+- Forgot password ✅
+- Reset password ✅
+- Order list
+- User order list
+- Order by id
+
 ## Components ✅
 
 - AppHeader ✅
@@ -15,6 +26,7 @@
 - OrderDetails ✅
 - Redux-store ✅
 - DnD-events ✅
+- ProtectedRoute ✅
 
 ## API request for load ingredients ✅
 
