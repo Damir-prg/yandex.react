@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
   RouteWrapper,
@@ -13,17 +13,39 @@ import {
   ResetPasswordPage,
   ProtectedRoute,
 } from "pages/index";
+import { initUser } from "services/reducers/userSlice";
 import { loadIngredients } from "services/reducers/ingredientsSlice";
-import { useAppDispatch } from "services/hooks";
+import { useAppDispatch, useAppSelector } from "services/hooks";
 import { ERoutes } from "utils/routes";
+import { Spinner } from "components/Spinner";
+
+import classes from "./app.module.css";
 
 function App() {
+  const userInitLoading = useAppSelector((state) => state.user.initLoading);
   const dispatch = useAppDispatch();
 
+  const init = async () => {
+    try {
+      await dispatch(loadIngredients());
+      await dispatch(initUser());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Загрузка всех ингредиентов
-  useEffect(() => {
-    dispatch(loadIngredients());
+  useLayoutEffect(() => {
+    init();
   }, []);
+
+  if (userInitLoading) {
+    return (
+      <main className={classes["full-screen"]}>
+        <Spinner />
+      </main>
+    );
+  }
 
   return (
     <Routes>

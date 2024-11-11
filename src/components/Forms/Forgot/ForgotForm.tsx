@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ERoutes } from "utils/routes";
-
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { passwordApi } from "api/index";
 
 import type { FormEventHandler, FC } from "react";
 
@@ -16,9 +16,21 @@ export const ForgotForm: FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
 
+  const forgotHandle = async () => {
+    try {
+      const response = await passwordApi.forgotPassword({ email });
+
+      if (response.success) {
+        navigate(ERoutes.BASE + ERoutes.RESET_PASSWORD);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    navigate(ERoutes.BASE + ERoutes.RESET_PASSWORD);
+    forgotHandle();
   };
 
   const onEmailChanged = (event: React.ChangeEvent<HTMLInputElement>) => {

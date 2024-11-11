@@ -8,12 +8,12 @@ import { ERoutes } from "utils/routes";
 import { authApi } from "api/index";
 import { setCookie } from "utils/cookie";
 import { setUser, setAuthStatus } from "services/reducers/userSlice";
+import { useAppDispatch } from "services/hooks";
 
 import type { FormEventHandler, FC } from "react";
 
 import classes from "./registerForm.module.css";
 import classNames from "classnames";
-import { useAppDispatch } from "services/hooks";
 
 export const RegisterForm: FC = () => {
   const navigate = useNavigate();
@@ -35,7 +35,8 @@ export const RegisterForm: FC = () => {
       dispatch(setUser(response.user));
       dispatch(setAuthStatus(true));
 
-      navigate(ERoutes.BASE);
+      console.log(history.state.usr?.from);
+      navigate(history.state.usr?.from || ERoutes.BASE);
     }
   };
 

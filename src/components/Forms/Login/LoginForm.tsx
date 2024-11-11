@@ -35,7 +35,7 @@ export const LoginForm: FC = () => {
         dispatch(setUser(response.user));
         dispatch(setAuthStatus(true));
 
-        navigate(ERoutes.BASE);
+        navigate(history.state.usr?.from || ERoutes.BASE);
       }
     } catch (error) {
       console.error(error);
