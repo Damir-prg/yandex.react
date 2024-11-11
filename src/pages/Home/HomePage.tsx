@@ -18,6 +18,7 @@ export const HomePage = () => {
   const onModalClose = () => {
     dispatch(setIngredient(null));
     dispatch(setOpenState(false));
+    history.pushState(null, "", "/");
   };
 
   return (
