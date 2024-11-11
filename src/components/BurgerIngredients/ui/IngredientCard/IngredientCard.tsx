@@ -37,6 +37,7 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
     (item: TIngredient) => {
       dispatch(setIngredient(item));
       dispatch(setOpenState(true));
+      history.pushState(null, "", `/ingredients/${item._id}`);
     },
     [dispatch]
   );
