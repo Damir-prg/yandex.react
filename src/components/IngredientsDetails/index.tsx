@@ -4,12 +4,20 @@ import { FC } from "react";
 import classes from "./ingredientsDetails.module.css";
 
 type TIngredientDetailsProps = {
-  ingredient: TIngredient;
+  ingredient: TIngredient | null;
 };
 
 export const IngredientDetails: FC<TIngredientDetailsProps> = ({
   ingredient,
 }) => {
+  if (!ingredient) {
+    return (
+      <div className={classes["ingredients-details-wrapper"]}>
+        К сожалению, ингредиент не найден
+      </div>
+    );
+  }
+
   return (
     <div className={classes["ingredients-details-wrapper"]}>
       <figure className={classes["ingredients-details-figure"]}>
