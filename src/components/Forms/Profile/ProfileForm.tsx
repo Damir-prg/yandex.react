@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Spinner } from "components/Spinner";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "hooks/useForm";
+import { useEditableInput } from "hooks/useEditableInput";
+import { ERoutes } from "utils/routes";
+import { userApi } from "api/index";
 
 import type { FC, FormEventHandler } from "react";
 
-import classes from "./profileForm.module.css";
-import { userApi } from "api/index";
-import { useNavigate } from "react-router-dom";
-import { ERoutes } from "utils/routes";
-import { Spinner } from "components/Spinner";
+import classes from "../styles/forms.module.css";
 
 export const ProfileForm: FC = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { formState, handleInputChange, setForceFormState } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const { editable, changeEditableStatus } = useEditableInput();
   const [loading, setLoading] = useState<boolean>(false);
-  const [canEdit, setCanEdit] = useState<boolean>(false);
 
   const loadUserData = async () => {
     try {
@@ -23,8 +27,7 @@ export const ProfileForm: FC = () => {
       const response = await userApi.getUser();
 
       if (response.success) {
-        setName(response.user.name);
-        setEmail(response.user.email);
+        setForceFormState(response.user);
       } else {
         navigate(ERoutes.BASE);
       }
@@ -39,27 +42,6 @@ export const ProfileForm: FC = () => {
     event.preventDefault();
   };
 
-  const onNameChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (canEdit) {
-      const { value } = event.target;
-      setName(value);
-    }
-  };
-
-  const onEmailChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (canEdit) {
-      const { value } = event.target;
-      setEmail(value);
-    }
-  };
-
-  const onPasswordChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (canEdit) {
-      const { value } = event.target;
-      setPassword(value);
-    }
-  };
-
   useEffect(() => {
     loadUserData();
   }, []);
@@ -69,33 +51,36 @@ export const ProfileForm: FC = () => {
   }
 
   return (
-    <form className={classes["profile-form"]} onSubmit={onSubmit}>
-      <div className={classes["profile-content"]}>
+    <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>
+      <div className={classes["forms-inputs"]}>
         <Input
           type="text"
-          value={name}
+          value={formState.name}
+          name="name"
           icon={"EditIcon"}
-          onChange={onNameChanged}
-          onIconClick={() => setCanEdit((state) => !state)}
-          disabled={!canEdit}
+          onChange={(e) => editable.canEdit && handleInputChange(e)}
+          onIconClick={changeEditableStatus}
+          disabled={!editable.canEdit}
           placeholder="Имя"
         />
         <Input
           type="email"
-          value={email}
+          name="email"
+          value={formState.email}
           icon={"EditIcon"}
-          onChange={onEmailChanged}
-          onIconClick={() => setCanEdit((state) => !state)}
-          disabled={!canEdit}
+          onChange={(e) => editable.canEdit && handleInputChange(e)}
+          onIconClick={changeEditableStatus}
+          disabled={!editable.canEdit}
           placeholder="E-mail"
         />
         <Input
-          type={canEdit ? "text" : "password"}
-          value={password}
+          type={editable.canEdit ? "text" : "password"}
+          value={formState.password}
+          name="password"
           icon={"EditIcon"}
-          disabled={!canEdit}
-          onIconClick={() => setCanEdit((state) => !state)}
-          onChange={onPasswordChanged}
+          disabled={!editable.canEdit}
+          onIconClick={changeEditableStatus}
+          onChange={(e) => editable.canEdit && handleInputChange(e)}
           placeholder="Пароль"
         />
       </div>

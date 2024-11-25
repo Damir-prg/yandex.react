@@ -1,5 +1,4 @@
-/* Wrappers */
-.profile-form {
+.forms-wrapper {
   width: 90%;
   max-width: 480px;
 
@@ -11,6 +10,15 @@
   animation: render 0.5s ease;
 }
 
+.forms-inputs {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 24px;
+}
+
 @keyframes render {
   0% {
     opacity: 0;
@@ -20,13 +28,4 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-.profile-content {
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-
-  gap: 24px;
 }

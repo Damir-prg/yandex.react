@@ -1,0 +1,19 @@
+.form-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-text-center {
+  text-align: center;
+}
+
+.form-footer-link {
+  color: #4c4cff;
+  text-decoration: none;
+  transition: color 0.075s ease;
+}
+
+.form-footer-link:hover {
+  color: #4747de;
+}

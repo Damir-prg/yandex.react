@@ -1,32 +1,43 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Button,
-  Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FormFooter, PrimaryButton, Title } from "../ui";
 import { ERoutes } from "utils/routes";
 import { authApi } from "api/index";
 import { useAppDispatch } from "services/hooks";
+import { useForm } from "hooks/useForm";
+import { useEditableInput } from "hooks/useEditableInput";
 import { setCookie } from "utils/cookie";
 import { setUser, setAuthStatus } from "services/reducers/userSlice";
 
-import type { FC, FormEventHandler } from "react";
+import type { ComponentProps, FC, FormEventHandler } from "react";
 
-import classes from "./loginForm.module.css";
-import classNames from "classnames";
+import classes from "../styles/forms.module.css";
+
+const footerData: ComponentProps<typeof FormFooter>["data"] = [
+  {
+    text: "Вы - новый пользователь?",
+    linkText: "Зарегистрироваться",
+    to: ERoutes.BASE + ERoutes.REGISTER,
+  },
+  {
+    text: "Забыли пароль?",
+    linkText: "Восстановить пароль",
+    to: ERoutes.BASE + ERoutes.RESET_PASSWORD,
+  },
+];
 
 export const LoginForm: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordType, setPasswordType] = useState<"password" | "text">(
-    "password"
-  );
+  const { formState, handleInputChange } = useForm({
+    email: "",
+    password: "",
+  });
+  const { editable, changeEditableStatus } = useEditableInput();
 
   const loginEvent = async () => {
     try {
-      const response = await authApi.login({ email, password });
+      const response = await authApi.login(formState);
 
       if (response.success) {
         setCookie("accessToken", response.accessToken, 1);
@@ -47,77 +58,29 @@ export const LoginForm: FC = () => {
     loginEvent();
   };
 
-  const onEmailChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setEmail(value);
-  };
-
-  const onPasswordChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setPassword(value);
-  };
-
   return (
-    <form className={classes["login-form"]} onSubmit={onSubmit}>
-      <div className={classes["login-content"]}>
-        <h3
-          className={classNames(
-            "text text_type_main-medium",
-            classes["login-text-center"]
-          )}>
-          Вход
-        </h3>
+    <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>
+      <div className={classes["forms-inputs"]}>
+        <Title text="Вход" />
         <Input
           type="email"
-          value={email}
-          onChange={onEmailChanged}
+          name="email"
+          value={formState.email}
+          onChange={handleInputChange}
           placeholder="E-mail"
         />
         <Input
-          type={passwordType}
-          value={password}
-          icon={passwordType === "password" ? "ShowIcon" : "HideIcon"}
-          onIconClick={() => {
-            setPasswordType(passwordType === "password" ? "text" : "password");
-          }}
-          onChange={onPasswordChanged}
+          type={editable.text}
+          value={formState.password}
+          name="password"
+          icon={editable.icon}
+          onIconClick={changeEditableStatus}
+          onChange={handleInputChange}
           placeholder="Пароль"
         />
-        <Button
-          htmlType="submit"
-          type="primary"
-          extraClass={classes["login-button"]}>
-          Войти
-        </Button>
+        <PrimaryButton text="Войти" />
       </div>
-      <div className={classes["login-footer"]}>
-        <p className={classes["login-text-center"]}>
-          <span className="text text_type_main-default text_color_inactive">
-            Вы - новый пользователь?
-          </span>{" "}
-          <Link
-            to={ERoutes.BASE + ERoutes.REGISTER}
-            className={classNames(
-              "text text_type_main-default",
-              classes["login-link"]
-            )}>
-            Зарегистрироваться
-          </Link>
-        </p>
-        <p className={classes["login-text-center"]}>
-          <span className="text text_type_main-default text_color_inactive">
-            Забыли пароль?
-          </span>{" "}
-          <Link
-            to={ERoutes.BASE + ERoutes.RESET_PASSWORD}
-            className={classNames(
-              "text text_type_main-default",
-              classes["login-link"]
-            )}>
-            Восстановить пароль
-          </Link>
-        </p>
-      </div>
+      <FormFooter data={footerData} />
     </form>
   );
 };

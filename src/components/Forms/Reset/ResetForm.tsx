@@ -1,87 +1,53 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { ERoutes } from "utils/routes";
+import { useForm } from "hooks/useForm";
+import { useEditableInput } from "hooks/useEditableInput";
 
-import {
-  Input,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import type { FormEventHandler, FC } from "react";
+import type { FormEventHandler, FC, ComponentProps } from "react";
 
-import classes from "./resetForm.module.css";
-import classNames from "classnames";
+import classes from "../styles/forms.module.css";
+import { FormFooter, Title, PrimaryButton } from "../ui";
+
+const footerData: ComponentProps<typeof FormFooter>["data"] = [
+  {
+    text: "Вспомнили пароль?",
+    to: ERoutes.BASE + ERoutes.LOGIN,
+    linkText: "Войти",
+  },
+];
 
 export const ResetForm: FC = () => {
-  const [code, setCode] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordType, setPasswordType] = useState<"password" | "text">(
-    "password"
-  );
+  const { formState, handleInputChange } = useForm({ code: "", password: "" });
+  const { editable, changeEditableStatus } = useEditableInput();
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
   };
 
-  const onCodeChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setCode(value);
-  };
-
-  const onPasswordChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setPassword(value);
-  };
-
   return (
-    <form className={classes["reset-password-form"]} onSubmit={onSubmit}>
-      <div className={classes["reset-password-content"]}>
-        <h3
-          className={classNames(
-            "text text_type_main-medium",
-            classes["reset-password-text-center"]
-          )}>
-          Восстановление пароля
-        </h3>
-
+    <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>
+      <div className={classes["forms-inputs"]}>
+        <Title text="Восстановление пароля" />
         <Input
-          type={passwordType}
-          value={password}
-          icon={passwordType === "password" ? "ShowIcon" : "HideIcon"}
-          onIconClick={() => {
-            setPasswordType(passwordType === "password" ? "text" : "password");
-          }}
-          onChange={onPasswordChanged}
+          type={editable.text}
+          name="password"
+          value={formState.password}
+          icon={editable.icon}
+          onIconClick={changeEditableStatus}
+          onChange={handleInputChange}
           placeholder="Введите новый пароль"
         />
         <Input
           type="text"
-          value={code}
-          onChange={onCodeChanged}
+          name="code"
+          value={formState.code}
+          onChange={handleInputChange}
           placeholder="Введите код из письма"
         />
-        <Button
-          htmlType="submit"
-          type="primary"
-          extraClass={classes["reset-password-button"]}>
-          Сохранить
-        </Button>
+        <PrimaryButton text="Сохранить" />
       </div>
-      <div className={classes["reset-password-footer"]}>
-        <p className={classes["reset-password-text-center"]}>
-          <span className="text text_type_main-default text_color_inactive">
-            Вспомнили пароль?
-          </span>{" "}
-          <Link
-            to={ERoutes.BASE + ERoutes.LOGIN}
-            className={classNames(
-              "text text_type_main-default",
-              classes["reset-password-link"]
-            )}>
-            Войти
-          </Link>
-        </p>
-      </div>
+      <FormFooter data={footerData} />
     </form>
   );
 };

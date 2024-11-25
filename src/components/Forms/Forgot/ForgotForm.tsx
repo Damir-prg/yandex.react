@@ -1,24 +1,29 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FormFooter, PrimaryButton, Title } from "../ui";
 import { ERoutes } from "utils/routes";
-import {
-  Input,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useForm } from "hooks/useForm";
 import { passwordApi } from "api/index";
 
-import type { FormEventHandler, FC } from "react";
+import type { FormEventHandler, FC, ComponentProps } from "react";
 
-import classes from "./forgotForm.module.css";
-import classNames from "classnames";
+import classes from "../styles/forms.module.css";
+
+const footerData: ComponentProps<typeof FormFooter>["data"] = [
+  {
+    linkText: "Войти",
+    to: ERoutes.BASE + ERoutes.LOGIN,
+    text: "Вспомнили пароль?",
+  },
+];
 
 export const ForgotForm: FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>("");
+  const { formState, handleInputChange } = useForm({ email: "" });
 
   const forgotHandle = async () => {
     try {
-      const response = await passwordApi.forgotPassword({ email });
+      const response = await passwordApi.forgotPassword(formState);
 
       if (response.success) {
         navigate(ERoutes.BASE + ERoutes.RESET_PASSWORD);
@@ -33,49 +38,19 @@ export const ForgotForm: FC = () => {
     forgotHandle();
   };
 
-  const onEmailChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setEmail(value);
-  };
-
   return (
-    <form className={classes["forgot-password-form"]} onSubmit={onSubmit}>
-      <div className={classes["forgot-password-content"]}>
-        <h3
-          className={classNames(
-            "text text_type_main-medium",
-            classes["forgot-password-text-center"]
-          )}>
-          Восстановление пароля
-        </h3>
+    <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>
+      <div className={classes["forms-inputs"]}>
+        <Title text="Восстановление пароля" />
         <Input
           type="text"
-          value={email}
-          onChange={onEmailChanged}
+          value={formState.email}
+          onChange={handleInputChange}
           placeholder="Укажите e-mail"
         />
-        <Button
-          htmlType="submit"
-          type="primary"
-          extraClass={classes["forgot-password-button"]}>
-          Восстановить
-        </Button>
+        <PrimaryButton text="Восстановить" />
       </div>
-      <div className={classes["forgot-password-footer"]}>
-        <p className={classes["forgot-password-text-center"]}>
-          <span className="text text_type_main-default text_color_inactive">
-            Вспомнили пароль?
-          </span>{" "}
-          <Link
-            to={ERoutes.BASE + ERoutes.LOGIN}
-            className={classNames(
-              "text text_type_main-default",
-              classes["forgot-password-link"]
-            )}>
-            Войти
-          </Link>
-        </p>
-      </div>
+      <FormFooter data={footerData} />
     </form>
   );
 };
