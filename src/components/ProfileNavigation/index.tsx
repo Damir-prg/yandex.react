@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ERoutes } from "utils/routes";
 import { useAppDispatch } from "services/hooks";
+import { logoutUser } from "services/reducers/userSlice";
+import { ERoutes } from "utils/routes";
 import { getCookie } from "utils/cookie";
-import { authApi } from "api/index";
-import { resetStore } from "services/reducers/userSlice";
 
 import type { FC } from "react";
 
@@ -23,8 +22,8 @@ const descriptions = {
 };
 
 export const ProfileNavigation: FC = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
   const activeTab = useMemo(() => {
@@ -42,9 +41,7 @@ export const ProfileNavigation: FC = () => {
 
   const logoutEvent = async () => {
     const token = getCookie("refreshToken");
-    await authApi.logout({ token });
-
-    dispatch(resetStore());
+    await dispatch(logoutUser({ token }));
     navigate(ERoutes.BASE);
   };
 

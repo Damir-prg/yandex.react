@@ -1,13 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormFooter, PrimaryButton, Title } from "../ui";
-import { ERoutes } from "utils/routes";
-import { authApi } from "api/index";
 import { useAppDispatch } from "services/hooks";
+import { registerUser } from "services/reducers/userSlice";
+import { ERoutes } from "utils/routes";
 import { useForm } from "hooks/useForm";
+import { useUserRedirect } from "hooks/useUserRedirect";
 import { useEditableInput } from "hooks/useEditableInput";
-import { setCookie } from "utils/cookie";
-import { setUser, setAuthStatus } from "services/reducers/userSlice";
+import { FormFooter, PrimaryButton, Title } from "../ui";
 
 import type { FormEventHandler, FC, ComponentProps } from "react";
 
@@ -22,7 +20,6 @@ const footerData: ComponentProps<typeof FormFooter>["data"] = [
 ];
 
 export const RegisterForm: FC = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { formState, handleInputChange } = useForm({
     name: "",
@@ -31,25 +28,12 @@ export const RegisterForm: FC = () => {
   });
   const { editable, changeEditableStatus } = useEditableInput();
 
-  const registerEvent = async (): Promise<void> => {
-    const response = await authApi.register(formState);
-
-    if (response.success) {
-      setCookie("accessToken", response.accessToken, 1);
-      setCookie("refreshToken", response.refreshToken, 1);
-
-      dispatch(setUser(response.user));
-      dispatch(setAuthStatus(true));
-
-      console.log(history.state.usr?.from);
-      navigate(history.state.usr?.from || ERoutes.BASE);
-    }
-  };
-
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    registerEvent();
+    dispatch(registerUser(formState));
   };
+
+  useUserRedirect();
 
   return (
     <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>

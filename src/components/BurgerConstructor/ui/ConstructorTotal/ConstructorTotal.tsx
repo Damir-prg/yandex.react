@@ -40,7 +40,7 @@ export const ConstructorTotal: FC = () => {
       dispatch(setSelectedBun(null));
       dispatch(setSelectedIngredients([]));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, []);
 

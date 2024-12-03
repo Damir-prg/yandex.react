@@ -1,17 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormFooter, PrimaryButton, Title } from "../ui";
 import { ERoutes } from "utils/routes";
-import { authApi } from "api/index";
-import { useAppDispatch } from "services/hooks";
 import { useForm } from "hooks/useForm";
 import { useEditableInput } from "hooks/useEditableInput";
-import { setCookie } from "utils/cookie";
-import { setUser, setAuthStatus } from "services/reducers/userSlice";
+import { useUserRedirect } from "hooks/useUserRedirect";
+import { loginUser } from "services/reducers/userSlice";
 
 import type { ComponentProps, FC, FormEventHandler } from "react";
 
 import classes from "../styles/forms.module.css";
+import { useAppDispatch } from "services/hooks";
 
 const footerData: ComponentProps<typeof FormFooter>["data"] = [
   {
@@ -27,7 +25,6 @@ const footerData: ComponentProps<typeof FormFooter>["data"] = [
 ];
 
 export const LoginForm: FC = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { formState, handleInputChange } = useForm({
     email: "",
@@ -35,28 +32,12 @@ export const LoginForm: FC = () => {
   });
   const { editable, changeEditableStatus } = useEditableInput();
 
-  const loginEvent = async () => {
-    try {
-      const response = await authApi.login(formState);
-
-      if (response.success) {
-        setCookie("accessToken", response.accessToken, 1);
-        setCookie("refreshToken", response.refreshToken, 1);
-
-        dispatch(setUser(response.user));
-        dispatch(setAuthStatus(true));
-
-        navigate(history.state.usr?.from || ERoutes.BASE);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    loginEvent();
+    dispatch(loginUser(formState));
   };
+
+  useUserRedirect();
 
   return (
     <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>
