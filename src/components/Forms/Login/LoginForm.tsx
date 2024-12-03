@@ -20,7 +20,7 @@ const footerData: ComponentProps<typeof FormFooter>["data"] = [
   {
     text: "Забыли пароль?",
     linkText: "Восстановить пароль",
-    to: ERoutes.BASE + ERoutes.RESET_PASSWORD,
+    to: ERoutes.BASE + ERoutes.FORGOT_PASSWORD,
   },
 ];
 

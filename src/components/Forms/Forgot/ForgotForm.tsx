@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { FormEventHandler, FC, ComponentProps } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FormFooter, PrimaryButton, Title } from "../ui";
+import { useAppDispatch, useAppSelector } from "services/hooks";
+import { forgotPassword } from "services/reducers/passwordSlice";
 import { ERoutes } from "utils/routes";
 import { useForm } from "hooks/useForm";
-import { passwordApi } from "api/index";
-
-import type { FormEventHandler, FC, ComponentProps } from "react";
+import { FormFooter, PrimaryButton, Title } from "../ui";
 
 import classes from "../styles/forms.module.css";
 
@@ -18,25 +18,22 @@ const footerData: ComponentProps<typeof FormFooter>["data"] = [
 ];
 
 export const ForgotForm: FC = () => {
-  const navigate = useNavigate();
+  const location = useLocation();
+  const passwordState = useAppSelector((state) => state.password);
+  const dispatch = useAppDispatch();
   const { formState, handleInputChange } = useForm({ email: "" });
-
-  const forgotHandle = async () => {
-    try {
-      const response = await passwordApi.forgotPassword(formState);
-
-      if (response.success) {
-        navigate(ERoutes.BASE + ERoutes.RESET_PASSWORD);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const from = location.pathname || "/";
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    forgotHandle();
+    dispatch(forgotPassword(formState));
   };
+
+  if (passwordState.isMailSend) {
+    return (
+      <Navigate to={ERoutes.BASE + ERoutes.RESET_PASSWORD} state={{ from }} />
+    );
+  }
 
   return (
     <form className={classes["forms-wrapper"]} onSubmit={onSubmit}>
@@ -44,6 +41,7 @@ export const ForgotForm: FC = () => {
         <Title text="Восстановление пароля" />
         <Input
           type="text"
+          name="email"
           value={formState.email}
           onChange={handleInputChange}
           placeholder="Укажите e-mail"

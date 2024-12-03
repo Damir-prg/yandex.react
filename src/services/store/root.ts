@@ -4,6 +4,7 @@ import orderReducer from "../reducers/orderSlice";
 import selectedIngredientsReducer from "../reducers/selectedIngredientsSlice";
 import userReducer from "../reducers/userSlice";
 import ingredientsModalReducer from "../reducers/ingredientsModalSlice";
+import passwordReducer from "../reducers/passwordSlice";
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   selectedIngredients: selectedIngredientsReducer,
   user: userReducer,
   ingredientsModal: ingredientsModalReducer,
+  password: passwordReducer,
 });
 
 export default rootReducer;
