@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import {
   BurgerIcon,
@@ -72,7 +72,9 @@ export const AppHeader = () => {
           </li>
         </div>
         <li className={classes["header-ul-item"]}>
-          <Logo />
+          <Link to={ERoutes.BASE}>
+            <Logo />
+          </Link>
         </li>
         <li
           className={classNames(
