@@ -1,27 +1,24 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useDrag } from "react-dnd";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  setIngredient,
-  setOpenState,
-} from "services/reducers/ingredientsModalSlice";
-import { useAppDispatch, useAppSelector } from "services/hooks";
+import { useAppSelector } from "services/hooks";
 
 import type { FC } from "react";
 import type { TIngredient } from "api/types";
 
 import classNames from "classnames";
 import classes from "./ingredientCard.module.css";
+import { Link, useLocation } from "react-router-dom";
 
 type TIngredientsProps = {
   ingredient: TIngredient;
 };
 
 export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
-  const dispatch = useAppDispatch();
+  const location = useLocation();
   const { selectedBun, selectedIngredients } = useAppSelector(
     (state) => state.selectedIngredients
   );
@@ -32,15 +29,6 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
       isDragging: monitor.isDragging(),
     }),
   }));
-
-  const handleModalOpen = useCallback(
-    (item: TIngredient) => {
-      dispatch(setIngredient(item));
-      dispatch(setOpenState(true));
-      history.pushState(null, "", `/ingredients/${item._id}`);
-    },
-    [dispatch]
-  );
 
   const count = useMemo(() => {
     if (selectedBun && selectedBun._id === ingredient._id) {
@@ -56,13 +44,14 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
   }, [selectedBun, selectedIngredients, ingredient]);
 
   return (
-    <div
+    <Link
+      to={`/ingredients/${ingredient._id}`}
+      state={{ background: location }}
       ref={drag}
       className={classNames(
         classes["card-wrapper"],
         isDragging && classes["card-wrapper_drag"]
-      )}
-      onClick={() => handleModalOpen(ingredient)}>
+      )}>
       {count ? <Counter count={count} size="default" /> : null}
       <img
         src={ingredient.image}
@@ -84,6 +73,6 @@ export const IngredientCard: FC<TIngredientsProps> = ({ ingredient }) => {
         )}>
         {ingredient.name}
       </p>
-    </div>
+    </Link>
   );
 };

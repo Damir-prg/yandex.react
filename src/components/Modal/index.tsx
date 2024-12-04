@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import ReactDOM from "react-dom";
 import { ModalOverlay } from "components/ModalOverlay";
 import { ModalWrapper, ModalHeader } from "./ui";
 
 import type { TModalProps } from "types/modal";
+import { useAppSelector } from "services/hooks";
 
 const modalRoot = document.getElementById("modals");
 
@@ -13,7 +14,13 @@ export const Modal: FC<TModalProps> = ({
   onClose,
   title,
 }) => {
-  if (!modalRoot || !isOpen) {
+  const modalState = useAppSelector((state) => state.ingredientsModal);
+
+  const isModalOpen = useMemo(() => {
+    return modalState.isOpen || isOpen;
+  }, [isOpen, modalState]);
+
+  if (!modalRoot || !isModalOpen) {
     return;
   }
 

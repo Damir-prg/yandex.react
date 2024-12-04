@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 4px;
+  text-decoration: none;
 }
 
 .card-wrapper_drag {
