@@ -28,7 +28,8 @@ const ingredientsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadIngredients.pending, (state) => {
-        (state.loading = true), (state.error = null);
+        state.loading = true;
+        state.error = null;
       })
       .addCase(
         loadIngredients.fulfilled,

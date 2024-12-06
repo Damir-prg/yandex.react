@@ -14,9 +14,9 @@ type TFormFooter = {
 export const FormFooter: FC<{ data: Array<TFormFooter> }> = ({ data }) => {
   return (
     <div className={classes["login-footer"]}>
-      {data.map((item) => {
+      {data.map((item, index) => {
         return (
-          <p className={classNames(classes["form-text-center"])}>
+          <p className={classNames(classes["form-text-center"])} key={index}>
             {item?.text && (
               <span
                 className={classNames(
