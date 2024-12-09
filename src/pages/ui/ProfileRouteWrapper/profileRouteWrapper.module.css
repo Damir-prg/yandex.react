@@ -1,0 +1,12 @@
+.profile-route-wrapper {
+  padding-inline: 20px;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+}

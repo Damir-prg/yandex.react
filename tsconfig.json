@@ -28,7 +28,8 @@
       "types/*": ["src/types/*"],
       "images": ["src/images/index.ts"],
       "services/*": ["src/services/*"],
-      "utils/*": ["src/utils/*"]
+      "utils/*": ["src/utils/*"],
+      "hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"],

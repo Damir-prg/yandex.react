@@ -1,5 +1,5 @@
 export type TModalProps = {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
   title?: string;
 } & React.PropsWithChildren;

@@ -2,11 +2,11 @@ import { PageContainer } from "pages/ui";
 import { BurgerIngredients } from "components/BurgerIngredients";
 import { BurgerConstructor } from "components/BurgerConstructor";
 
-import classes from "./constructorPage.module.css";
+import classes from "./homePage.module.css";
 
-export const ConstructorPage = () => {
+export const HomePage = () => {
   return (
-    <PageContainer className={classes["constructor-page"]}>
+    <PageContainer className={classes["home-page"]}>
       <BurgerIngredients />
       <BurgerConstructor />
     </PageContainer>

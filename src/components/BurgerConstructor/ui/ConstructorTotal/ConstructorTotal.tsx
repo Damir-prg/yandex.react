@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useCallback, useMemo, useState } from "react";
 import {
   CurrencyIcon,
@@ -11,6 +12,7 @@ import {
   setSelectedBun,
   setSelectedIngredients,
 } from "services/reducers/selectedIngredientsSlice";
+import { ERoutes } from "utils/routes";
 
 import type { FC, FormEventHandler } from "react";
 
@@ -19,12 +21,14 @@ import classes from "./constructorTotal.module.css";
 
 export const ConstructorTotal: FC = () => {
   const [modalState, setModalState] = useState(false);
+  const navigate = useNavigate();
   const { selectedBun, selectedIngredients } = useAppSelector(
     (state) => state.selectedIngredients
   );
   const { loading, name, error, order, orderItems } = useAppSelector(
     (state) => state.order
   );
+  const { isAuth } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const createOrder = useCallback(async (orderItems: Array<string>) => {
@@ -36,7 +40,7 @@ export const ConstructorTotal: FC = () => {
       dispatch(setSelectedBun(null));
       dispatch(setSelectedIngredients([]));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, []);
 
@@ -58,6 +62,10 @@ export const ConstructorTotal: FC = () => {
 
   const formSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    if (!isAuth) {
+      navigate(ERoutes.BASE + ERoutes.LOGIN);
+      return;
+    }
     createOrder(orderItems);
   };
 
