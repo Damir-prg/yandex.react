@@ -1,4 +1,4 @@
-import { checkResponse } from "utils/checkResponse";
+import { ResponseUtils } from "utils/responseUtils";
 import { getCookie, setCookie } from "utils/cookie";
 
 import type * as Types from "./types";
@@ -33,7 +33,9 @@ export const refreshToken = async (): Promise<Types.TUpdateResponse> => {
       body: JSON.stringify({ token: refreshToken } as Types.TTokenRequest),
     });
 
-    const result = await checkResponse<Types.TUpdateResponse>(refresh);
+    const result = await ResponseUtils.httpCheck<Types.TUpdateResponse>(
+      refresh
+    );
 
     if (result.success) {
       setCookie("accessToken", result.accessToken, 1);
@@ -69,7 +71,7 @@ const apiRequest = async <T = unknown>(params: TApiRequest): Promise<T> => {
         headers: defaultHeaders,
       });
 
-      return checkResponse<T>(response);
+      return ResponseUtils.httpCheck<T>(response);
     }
 
     const response = await fetch(url, {
@@ -78,7 +80,7 @@ const apiRequest = async <T = unknown>(params: TApiRequest): Promise<T> => {
       body: JSON.stringify(params.data),
     });
 
-    return checkResponse<T>(response);
+    return ResponseUtils.httpCheck<T>(response);
   } catch (error) {
     return Promise.reject({ error: error });
   }
