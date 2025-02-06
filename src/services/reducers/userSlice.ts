@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authApi, refreshToken } from "api/index";
+import { authApi } from "api/index";
 
 import type { TUpdateResponse } from "api/types";
 import type { TAuthResponse } from "api/types";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { setCookie } from "utils/cookie";
+import { refreshToken } from "api/request";
 
 type TSliceUser = {
   user: TAuthResponse["user"] | null;
@@ -51,6 +52,7 @@ const userSlice = createSlice({
       state.user = null;
       state.initLoading = true;
     });
+    // @ts-expect-error
     builder.addCase(
       initUser.fulfilled,
       (state: TSliceUser, action: PayloadAction<TUpdateResponse>) => {
