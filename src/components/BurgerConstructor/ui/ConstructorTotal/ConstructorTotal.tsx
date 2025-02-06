@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "components/Modal";
 import { OrderDetails } from "components/OrderDetails";
-import { postOrder } from "services/reducers/orderSlice";
+import { createOrder } from "services/reducers/orderSlice";
 import { useAppSelector, useAppDispatch } from "services/hooks";
 import {
   setSelectedBun,
@@ -25,15 +25,15 @@ export const ConstructorTotal: FC = () => {
   const { selectedBun, selectedIngredients } = useAppSelector(
     (state) => state.selectedIngredients
   );
-  const { loading, name, error, order, orderItems } = useAppSelector(
+  const { loading, name, error, number, orderItems } = useAppSelector(
     (state) => state.order
   );
   const { isAuth } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  const createOrder = useCallback(async (orderItems: Array<string>) => {
+  const handleSubmit = useCallback(async (orderItems: Array<string>) => {
     try {
-      await dispatch(postOrder({ ingredients: orderItems }));
+      await dispatch(createOrder({ ingredients: orderItems }));
 
       setModalState(true);
 
@@ -66,7 +66,7 @@ export const ConstructorTotal: FC = () => {
       navigate(ERoutes.BASE + ERoutes.LOGIN);
       return;
     }
-    createOrder(orderItems);
+    handleSubmit(orderItems);
   };
 
   return (
@@ -75,7 +75,7 @@ export const ConstructorTotal: FC = () => {
         title={name || ""}
         isOpen={modalState}
         onClose={() => setModalState(false)}>
-        {!error && order ? <OrderDetails orderNumber={order.number} /> : error}
+        {!error && number ? <OrderDetails orderNumber={number} /> : error}
       </Modal>
       <form onSubmit={formSubmit} className={classes["total-form"]}>
         <span
