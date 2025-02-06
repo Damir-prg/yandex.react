@@ -13,8 +13,6 @@ import type {
 
 import { request } from "./request";
 
-import type * as Types from "./types";
-
 export const api = {
   /**
    * Получение всех ингредиентов
@@ -99,112 +97,10 @@ export const api = {
   /**
    * Обновить данные о пользователе
    */
-  updateUser: async (data: TPatchUserRequest): Promise<Types.TUserData> =>
+  updateUser: async (
+    data: TPatchUserRequest
+  ): Promise<{ email: string; name: string }> =>
     request({
-      url: "user",
-      method: "PATCH",
-      data,
-    }),
-};
-
-export const ingredientsApi = {
-  /**
-   * Получение всех ингредиентов
-   */
-  getAll: async (): Promise<TIngredientResponse> =>
-    request({
-      url: "ingredients",
-      method: "GET",
-    }),
-
-  /**
-   * Создание заказа
-   */
-  postOrder: async (
-    data: Types.TApiOrderRequest
-  ): Promise<Types.TOrderResponse> =>
-    request<Types.TOrderResponse>({
-      url: "orders",
-      method: "POST",
-      data,
-    }),
-};
-
-export const passwordApi = {
-  /**
-   * Проверка на наличие аккаунта с текущим email
-   */
-  forgotPassword: async (
-    data: Types.TForgotRequest
-  ): Promise<Types.TMessageResponse> =>
-    request<Types.TMessageResponse>({
-      url: "forgotPassword",
-      method: "POST",
-      data,
-    }),
-
-  /**
-   * Сброс пароля
-   */
-  resetPassword: async (
-    data: Types.TResetRequest
-  ): Promise<Types.TMessageResponse> =>
-    request<Types.TMessageResponse>({
-      url: "resetPassword",
-      method: "POST",
-      data,
-    }),
-};
-
-export const authApi = {
-  /**
-   * Авторизация
-   */
-  login: async (data: Types.TLoginRequest): Promise<Types.TAuthResponse> =>
-    request<Types.TAuthResponse>({
-      url: "login",
-      method: "POST",
-      data,
-    }),
-
-  /**
-   * Регистрация
-   */
-  register: async (
-    data: Types.TRegisterRequest
-  ): Promise<Types.TAuthResponse> =>
-    request<Types.TAuthResponse>({
-      url: "register",
-      method: "POST",
-      data,
-    }),
-
-  /**
-   * Выход из системы
-   */
-  logout: async (data: Types.TTokenRequest): Promise<Types.TMessageResponse> =>
-    request<Types.TMessageResponse>({
-      url: "logout",
-      method: "POST",
-      data,
-    }),
-};
-
-export const userApi = {
-  /**
-   * Получить данные о пользователе
-   */
-  getUser: async (): Promise<Types.TUserApiResponse> =>
-    request<Types.TUserApiResponse>({
-      url: "user",
-      method: "GET",
-    }),
-
-  /**
-   * Обновить данные о пользователе
-   */
-  updateUser: async (data: Types.TUserData): Promise<Types.TUserApiResponse> =>
-    request<Types.TUserApiResponse>({
       url: "user",
       method: "PATCH",
       data,
