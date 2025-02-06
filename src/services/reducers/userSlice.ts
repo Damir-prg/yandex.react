@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { authApi } from "api/index";
-
 import type { TUpdateResponse } from "api/types";
 import type { TAuthResponse } from "api/types";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { api } from "api/index";
 import { setCookie } from "utils/cookie";
 import { refreshToken } from "api/request";
 
@@ -20,12 +20,9 @@ const initialState: TSliceUser = {
 };
 
 export const initUser = createAsyncThunk("user/init", refreshToken);
-export const loginUser = createAsyncThunk("authApi/login", authApi.login);
-export const registerUser = createAsyncThunk(
-  "authApi/register",
-  authApi.register
-);
-export const logoutUser = createAsyncThunk("authApi/logout", authApi.logout);
+export const loginUser = createAsyncThunk("user/login", api.login);
+export const registerUser = createAsyncThunk("user/register", api.register);
+export const logoutUser = createAsyncThunk("user/logout", api.logout);
 
 const userSlice = createSlice({
   name: "user",

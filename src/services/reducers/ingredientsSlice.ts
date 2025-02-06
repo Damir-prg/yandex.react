@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ingredientsApi } from "api/index";
-
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { TIngredientResponse, TIngredient } from "api/types/ingredients";
+
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from "api/index";
 
 type TSliceIngredients = {
   ingredients: Array<TIngredient>;
@@ -20,7 +20,7 @@ const initialState: TSliceIngredients = {
 
 export const loadIngredients = createAsyncThunk(
   "ingredients/get",
-  ingredientsApi.getAll
+  api.getIngredients
 );
 
 const ingredientsSlice = createSlice({
