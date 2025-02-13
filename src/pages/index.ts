@@ -1,4 +1,5 @@
 export { HomePage } from "./Home/HomePage";
+export { FeedPage } from "./Feed/FeedPage";
 export { ForgotPasswordPage } from "./ForgotPassword/ForgotPasswordPage";
 export { IngredientByIdPage } from "./IngredientById/IngredientByIdPage";
 export { LoginPage } from "./Login/LoginPage";

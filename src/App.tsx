@@ -11,6 +11,7 @@ import {
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
+  FeedPage,
   ProtectedRoute,
 } from "pages/index";
 import { initUser } from "services/reducers/userSlice";
@@ -76,6 +77,8 @@ function App() {
       <Routes location={background || location}>
         <Route path={ERoutes.BASE} element={<RouteWrapper />}>
           <Route path={ERoutes.HOME} element={<HomePage />} />
+          <Route path={ERoutes.FEED} element={<FeedPage />} />
+          <Route path={ERoutes.FEED_BY_ID} element={<div />} />
           <Route
             path={ERoutes.INGREDIENT_BY_ID}
             element={<IngredientByIdPage />}
