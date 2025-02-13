@@ -50,4 +50,14 @@ export const DateUtils = {
 
     return `${date}, ${time}`;
   },
+
+  isDateInLast24Hours(dateISO: string): boolean {
+    const now = new Date();
+
+    const diffInMilliseconds = now.getTime() - new Date(dateISO).getTime();
+
+    const dayInMilliseconds = 24 * 60 * 60 * 1000;
+
+    return diffInMilliseconds <= dayInMilliseconds && diffInMilliseconds >= 0;
+  },
 };
