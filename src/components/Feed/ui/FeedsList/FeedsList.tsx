@@ -1,6 +1,7 @@
 import { useAppSelector } from "services/hooks";
 import classes from "./feedsList.module.css";
 import { OrdersCard } from "../OrdersCard/index";
+
 export const FeedList = () => {
   const orders = useAppSelector((state) => state.feeds.orders);
 

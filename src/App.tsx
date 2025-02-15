@@ -9,6 +9,7 @@ import {
   LoginPage,
   NotFound404,
   ProfilePage,
+  ProfileOrdersPage,
   RegisterPage,
   ResetPasswordPage,
   FeedPage,
@@ -97,7 +98,10 @@ function App() {
             path={ERoutes.PROFILE}
             element={<ProtectedRoute element={<ProfileRouteWrapper />} />}>
             <Route path={ERoutes.PROFILE_HOME} element={<ProfilePage />} />
-            <Route path={ERoutes.PROFILE_ORDERS} element={<div />} />
+            <Route
+              path={ERoutes.PROFILE_ORDERS}
+              element={<ProfileOrdersPage />}
+            />
             <Route path={ERoutes.PROFILE_ORDER_BY_ID} element={<div />} />
           </Route>
           <Route path="*" element={<NotFound404 />} />

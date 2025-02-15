@@ -1,5 +1,5 @@
 import { TIngredient } from "api/types";
-import { FC, PropsWithChildren } from "react";
+import { FC } from "react";
 import classes from "./ordersCard.module.css";
 import classNames from "classnames";
 

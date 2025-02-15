@@ -6,17 +6,24 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "api/index";
 import { setCookie } from "utils/cookie";
 import { refreshToken } from "api/request";
+import { TFeedOrderItem } from "api/types/feed";
 
 type TSliceUser = {
   user: TAuthResponse["user"] | null;
   initLoading: boolean;
   isAuth: boolean;
+  ordersLoading: boolean;
+  orders: Array<TFeedOrderItem>;
+  wsStatus: "connected" | "disconnected" | "connecting";
 };
 
 const initialState: TSliceUser = {
   isAuth: false,
   user: null,
   initLoading: true,
+  ordersLoading: true,
+  orders: [],
+  wsStatus: "disconnected",
 };
 
 export const initUser = createAsyncThunk("user/init", refreshToken);
@@ -40,6 +47,19 @@ const userSlice = createSlice({
     resetStore(state: TSliceUser) {
       state.user = initialState.user;
       state.isAuth = initialState.isAuth;
+    },
+    wsOnMessage(state, action: PayloadAction<Omit<TSliceUser, "wsStatus">>) {
+      state.orders = action.payload.orders;
+      state.ordersLoading = false;
+    },
+    wsOnConnecting(state) {
+      state.wsStatus = "connecting";
+    },
+    wsOnOpen(state) {
+      state.wsStatus = "connected";
+    },
+    wsOnClose(state) {
+      state.wsStatus = "disconnected";
     },
   },
   extraReducers: (builder) => {
@@ -137,5 +157,13 @@ const userSlice = createSlice({
   },
 });
 
-export const { resetStore, setAuthStatus, setUser } = userSlice.actions;
+export const {
+  resetStore,
+  setAuthStatus,
+  setUser,
+  wsOnClose,
+  wsOnConnecting,
+  wsOnMessage,
+  wsOnOpen,
+} = userSlice.actions;
 export default userSlice.reducer;
