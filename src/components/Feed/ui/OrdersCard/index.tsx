@@ -1,5 +1,5 @@
-import { TFeedOrderItem } from "api/types/feed";
 import { FC } from "react";
+import { TFeedOrderItem } from "api/types/feed";
 
 import classes from "./ordersCard.module.css";
 
@@ -10,6 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 
 export const OrdersCard: FC<TFeedOrderItem> = (props) => {
   const location = useLocation();
+
   return (
     <li className={classes["orders-card"]}>
       <Link

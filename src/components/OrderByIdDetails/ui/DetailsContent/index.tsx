@@ -21,7 +21,11 @@ export const DetailsContent: FC<
 
         <ul className={classes["order-by-id-details-content-list"]}>
           {ingredients.map(({ count, ingredient }) => (
-            <DetailsContentListItem count={count} ingredient={ingredient} />
+            <DetailsContentListItem
+              key={ingredient._id}
+              count={count}
+              ingredient={ingredient}
+            />
           ))}
         </ul>
       </div>

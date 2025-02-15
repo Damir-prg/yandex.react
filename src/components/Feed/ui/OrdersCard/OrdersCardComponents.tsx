@@ -1,12 +1,11 @@
-import { TFeedOrderItem } from "api/types/feed";
 import { FC, useMemo } from "react";
 import { useAppSelector } from "services/hooks";
+import { TFeedOrderItem } from "api/types/feed";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { OrdersCardImage } from "./OrdersCardImage";
 
 import classes from "./ordersCard.module.css";
 import classNames from "classnames";
-import { OrdersCardImage } from "./OrdersCardImage";
-import { v4 } from "uuid";
 
 export const OrdersCardComponents: FC<Pick<TFeedOrderItem, "ingredients">> = ({
   ingredients,

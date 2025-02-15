@@ -1,5 +1,5 @@
-import { TIngredient } from "api/types";
 import { FC } from "react";
+import { TIngredient } from "api/types";
 import classes from "./ordersCard.module.css";
 import classNames from "classnames";
 

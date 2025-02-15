@@ -1,6 +1,6 @@
-import { TFeedOrderItem } from "api/types/feed";
 import { FC } from "react";
 import { DateUtils } from "utils/dateUtils";
+import { TFeedOrderItem } from "api/types/feed";
 
 import classes from "./ordersCard.module.css";
 
