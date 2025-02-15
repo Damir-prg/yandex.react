@@ -10,9 +10,11 @@ import {
   NotFound404,
   ProfilePage,
   ProfileOrdersPage,
+  ProfileOrderById,
   RegisterPage,
   ResetPasswordPage,
   FeedPage,
+  FeedByIdPage,
   ProtectedRoute,
 } from "pages/index";
 import { initUser } from "services/reducers/userSlice";
@@ -25,6 +27,7 @@ import { Spinner } from "components/Spinner";
 import classes from "./app.module.css";
 import { Modal } from "components/Modal";
 import { IngredientDetails } from "components/IngredientsDetails";
+import { OrderByIdDetails } from "components/OrderByIdDetails";
 
 function App() {
   const userInitLoading = useAppSelector((state) => state.user.initLoading);
@@ -79,7 +82,7 @@ function App() {
         <Route path={ERoutes.BASE} element={<RouteWrapper />}>
           <Route path={ERoutes.HOME} element={<HomePage />} />
           <Route path={ERoutes.FEED} element={<FeedPage />} />
-          <Route path={ERoutes.FEED_BY_ID} element={<div />} />
+          <Route path={ERoutes.FEED_BY_ID} element={<FeedByIdPage />} />
           <Route
             path={ERoutes.INGREDIENT_BY_ID}
             element={<IngredientByIdPage />}
@@ -102,7 +105,10 @@ function App() {
               path={ERoutes.PROFILE_ORDERS}
               element={<ProfileOrdersPage />}
             />
-            <Route path={ERoutes.PROFILE_ORDER_BY_ID} element={<div />} />
+            <Route
+              path={ERoutes.PROFILE_ORDER_BY_ID}
+              element={<ProfileOrderById />}
+            />
           </Route>
           <Route path="*" element={<NotFound404 />} />
         </Route>
@@ -114,6 +120,22 @@ function App() {
             element={
               <Modal onClose={handleModalClose} title="Детали ингредиента">
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClose={handleModalClose} title="Информация о заказе">
+                <OrderByIdDetails type="feed" />
+              </Modal>
+            }
+          />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal onClose={handleModalClose} title="Информация о заказе">
+                <OrderByIdDetails type="profile" />
               </Modal>
             }
           />

@@ -1,0 +1,10 @@
+.order-by-id-details-wrapper {
+  width: 640px;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+}
