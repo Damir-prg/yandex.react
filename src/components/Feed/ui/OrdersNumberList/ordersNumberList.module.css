@@ -1,0 +1,19 @@
+.orders-number {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.orders-number-list {
+  max-height: 188px;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.orders-number-list-item {
+  color: #00cccc;
+}

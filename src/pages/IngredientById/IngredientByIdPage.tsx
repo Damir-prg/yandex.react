@@ -10,15 +10,14 @@ import classes from "./ingredientByIdPage.module.css";
 
 export const IngredientByIdPage: FC = () => {
   const { id } = useParams();
-  const { ingredients } = useAppSelector((state) => state.ingredients);
+  const { ingredientsHash } = useAppSelector((state) => state.ingredients);
 
   const selectedIngredient = useMemo(() => {
-    const foundedIngredient = ingredients.find(
-      (ingredient) => ingredient._id === id
-    );
+    const foundedIngredient =
+      typeof id === "string" ? ingredientsHash[id] : null;
 
     return foundedIngredient;
-  }, [id, ingredients]);
+  }, [id, ingredientsHash]);
 
   return (
     <PageContainer className={classes["ingredient-page"]}>

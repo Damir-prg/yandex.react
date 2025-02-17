@@ -12,18 +12,18 @@ type TIngredientDetailsProps = {
 export const IngredientDetails: FC<TIngredientDetailsProps> = ({
   ingredient,
 }) => {
-  const ingredients = useAppSelector((state) => state.ingredients);
+  const { ingredientsHash } = useAppSelector((state) => state.ingredients);
   const { id } = useParams();
 
   const currentIngredient = useMemo(() => {
     if (ingredient) {
       return ingredient;
     }
-    if (id) {
-      return ingredients.ingredients.find((item) => item._id === id);
+    if (typeof id === "string") {
+      return ingredientsHash[id];
     }
     return;
-  }, [ingredients, ingredient, id]);
+  }, [ingredientsHash, ingredient, id]);
 
   if (!currentIngredient) {
     return (

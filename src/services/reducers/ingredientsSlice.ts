@@ -1,11 +1,12 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ingredientsApi } from "api/index";
-
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { TIngredientResponse, TIngredient } from "api/types";
+import type { TIngredientResponse, TIngredient } from "api/types/ingredients";
+
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from "api/index";
 
 type TSliceIngredients = {
   ingredients: Array<TIngredient>;
+  ingredientsHash: Record<string, TIngredient>;
   loading: boolean;
   error: string | null;
 };
@@ -13,12 +14,13 @@ type TSliceIngredients = {
 const initialState: TSliceIngredients = {
   error: null,
   ingredients: [],
+  ingredientsHash: {},
   loading: false,
 };
 
 export const loadIngredients = createAsyncThunk(
   "ingredients/get",
-  ingredientsApi.getAll
+  api.getIngredients
 );
 
 const ingredientsSlice = createSlice({
@@ -33,16 +35,17 @@ const ingredientsSlice = createSlice({
       })
       .addCase(
         loadIngredients.fulfilled,
-        (
-          state: TSliceIngredients,
-          action: PayloadAction<TIngredientResponse>
-        ) => {
+        (state, action: PayloadAction<TIngredientResponse>) => {
           state.loading = false;
 
-          if (action?.payload?.data) {
+          if (action.payload.success) {
             state.ingredients = action.payload.data;
-          } else {
-            state.ingredients = [];
+
+            state.ingredientsHash = action.payload.data.reduce((prev, curr) => {
+              prev[curr._id] = curr;
+
+              return prev;
+            }, {} as Record<string, TIngredient>);
           }
         }
       )

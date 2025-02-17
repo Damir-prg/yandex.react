@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { TIngredient } from "api/types/ingredients";
 
-import type { TIngredient } from "api/types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type TSliceIngredientsModal = {
   ingredient: TIngredient | null;

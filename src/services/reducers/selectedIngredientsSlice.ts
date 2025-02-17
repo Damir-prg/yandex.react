@@ -1,9 +1,9 @@
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { TIngredient } from "api/types/ingredients";
+import type { TSelectedIngredient } from "types/selectedIngredients";
+
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { TIngredient } from "api/types";
-import type { TSelectedIngredient } from "types/selectedIngredients";
 
 type TSliceSelectedIngredients = {
   selectedIngredients: Array<TSelectedIngredient>;

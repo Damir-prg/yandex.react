@@ -14,13 +14,13 @@ import classNames from "classnames";
 
 enum EHeaderButton {
   CONSTRUCTOR = "Конструктор",
-  ORDERS = "Лента заказов",
+  FEED = "Лента заказов",
   PROFILE = "Личный кабинет",
 }
 
 const paths = {
   [ERoutes.BASE]: EHeaderButton.CONSTRUCTOR,
-  [ERoutes.BASE + "unk"]: EHeaderButton.ORDERS,
+  [ERoutes.BASE + ERoutes.FEED]: EHeaderButton.FEED,
   [ERoutes.BASE + ERoutes.PROFILE]: EHeaderButton.PROFILE,
 };
 
@@ -34,8 +34,8 @@ export const AppHeader = () => {
     }
 
     // Нет маршрута и страницы
-    if (pathname === ERoutes.BASE + "unk") {
-      return;
+    if (pathname === ERoutes.BASE + ERoutes.FEED) {
+      return paths[ERoutes.BASE + ERoutes.FEED];
     }
 
     if (
@@ -64,10 +64,10 @@ export const AppHeader = () => {
           </li>
           <li>
             <HeaderButton
-              isActive={EHeaderButton.ORDERS === activeButton}
+              isActive={EHeaderButton.FEED === activeButton}
               Icon={ListIcon}
-              title={EHeaderButton.ORDERS}
-              route={ERoutes.BASE + "unk"}
+              title={EHeaderButton.FEED}
+              route={ERoutes.BASE + ERoutes.FEED}
             />
           </li>
         </div>

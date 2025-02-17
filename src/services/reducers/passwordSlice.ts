@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { passwordApi } from "api/index";
+import { api } from "api/index";
 
 type TPasswordSlice = {
   isMailSend: boolean;
@@ -11,14 +11,8 @@ const initialState: TPasswordSlice = {
   successReset: false,
 };
 
-export const forgotPassword = createAsyncThunk(
-  "forgot",
-  passwordApi.forgotPassword
-);
-export const resetPassword = createAsyncThunk(
-  "reset",
-  passwordApi.resetPassword
-);
+export const forgotPassword = createAsyncThunk("forgot", api.forgotPassword);
+export const resetPassword = createAsyncThunk("reset", api.resetPassword);
 
 const passwordSlice = createSlice({
   name: "password",

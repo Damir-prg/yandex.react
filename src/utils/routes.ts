@@ -10,4 +10,6 @@ export enum ERoutes {
   PROFILE_ORDERS = "orders",
   PROFILE_ORDER_BY_ID = "orders/:id",
   INGREDIENT_BY_ID = "ingredients/:id",
+  FEED = "feed",
+  FEED_BY_ID = "feed/:id",
 }

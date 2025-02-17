@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "hooks/useForm";
 import { useEditableInput } from "hooks/useEditableInput";
 import { ERoutes } from "utils/routes";
-import { userApi } from "api/index";
+import { api } from "api/index";
 
 import type { FC, FormEventHandler } from "react";
 
@@ -24,7 +24,7 @@ export const ProfileForm: FC = () => {
   const loadUserData = async () => {
     try {
       setLoading(true);
-      const response = await userApi.getUser();
+      const response = await api.getUser();
 
       if (response.success) {
         setForceFormState(response.user);

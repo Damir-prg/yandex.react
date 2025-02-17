@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ingredientsApi } from "api/index";
-
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { TOrderResponse } from "api/types";
+import type { TCreateOrderResponse } from "api/types/orders";
+
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { api } from "api/index";
 
 type TSliceOrder = {
-  order: TOrderResponse["order"] | null;
+  number: number | null;
   orderItems: Array<string>;
   loading: boolean;
   error: string | null;
@@ -16,13 +16,13 @@ const initialState: TSliceOrder = {
   name: null,
   error: null,
   loading: false,
-  order: null,
+  number: null,
   orderItems: [],
 };
 
-export const postOrder = createAsyncThunk(
+export const createOrder = createAsyncThunk(
   "ingredients/post",
-  ingredientsApi.postOrder
+  api.createOrder
 );
 
 const orderSlice = createSlice({
@@ -38,21 +38,23 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(postOrder.pending, (state: TSliceOrder) => {
+      .addCase(createOrder.pending, (state: TSliceOrder) => {
         state.error = null;
         state.loading = true;
-        state.order = null;
+        state.number = null;
       })
       .addCase(
-        postOrder.fulfilled,
-        (state: TSliceOrder, action: PayloadAction<TOrderResponse>) => {
+        createOrder.fulfilled,
+        (state: TSliceOrder, action: PayloadAction<TCreateOrderResponse>) => {
+          if (!action.payload.success) return;
+
           state.loading = false;
-          state.order = action.payload.order;
+          state.number = action.payload.order.number;
           state.name = action.payload?.name ? action.payload.name : null;
           state.error = null;
         }
       )
-      .addCase(postOrder.rejected, (state, action) => {
+      .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error?.message || "Ошибка при формирования заказа";
       });

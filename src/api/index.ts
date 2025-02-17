@@ -1,95 +1,24 @@
-import { checkResponse } from "utils/checkResponse";
-import { getCookie, setCookie } from "utils/cookie";
+import type { TIngredientResponse } from "./types/ingredients";
+import type { TCreateOrderRequest, TCreateOrderResponse } from "./types/orders";
+import type { TLoginRequest, TLoginResponse } from "./types/login";
+import type { TRegisterRequest, TRegisterResponse } from "./types/register";
+import type { TLogoutRequest, TLogoutResponse } from "./types/logout";
+import type { TUserResponse, TPatchUserRequest } from "./types/user";
+import type {
+  TForgotRequest,
+  TForgotResponse,
+  TResetRequest,
+  TResetResponse,
+} from "./types/password";
 
-import type * as Types from "./types";
+import { request } from "./request";
 
-const API_URL = "https://norma.nomoreparties.space/api";
-
-const apiEndpoints = {
-  ingredients: `${API_URL}/ingredients`,
-  orders: `${API_URL}/orders`,
-  login: `${API_URL}/auth/login`,
-  register: `${API_URL}/auth/register`,
-  logout: `${API_URL}/auth/logout`,
-  token: `${API_URL}/auth/token`,
-  user: `${API_URL}/auth/user`,
-  forgotPassword: `${API_URL}/password-reset`,
-  resetPassword: `${API_URL}/password-reset/reset`,
-};
-
-type TApiRequest = {
-  url: keyof typeof apiEndpoints;
-  withToken?: boolean;
-  options?: RequestInit;
-} & ({ method: "GET" } | { method: "PATCH" | "POST"; data: object });
-
-export const refreshToken = async (): Promise<Types.TUpdateResponse> => {
-  const refreshToken = getCookie("refreshToken");
-
-  try {
-    const refresh = await fetch(apiEndpoints.token, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: refreshToken } as Types.TTokenRequest),
-    });
-
-    const result = await checkResponse<Types.TUpdateResponse>(refresh);
-
-    if (result.success) {
-      setCookie("accessToken", result.accessToken, 1);
-      setCookie("refreshToken", result.refreshToken, 1);
-    }
-    return result;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
-
-const apiRequest = async <T = unknown>(params: TApiRequest): Promise<T> => {
-  const defaultHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  // refresh token
-  if (params?.withToken) {
-    try {
-      const result = await refreshToken();
-
-      defaultHeaders.authorization = result.accessToken;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  try {
-    const url = apiEndpoints[params.url];
-    if (params.method === "GET") {
-      const response = await fetch(url, {
-        method: params.method,
-        headers: defaultHeaders,
-      });
-
-      return checkResponse<T>(response);
-    }
-
-    const response = await fetch(url, {
-      method: params.method,
-      headers: defaultHeaders,
-      body: JSON.stringify(params.data),
-    });
-
-    return checkResponse<T>(response);
-  } catch (error) {
-    return Promise.reject({ error: error });
-  }
-};
-
-export const ingredientsApi = {
+export const api = {
   /**
    * Получение всех ингредиентов
    */
-  getAll: async (): Promise<Types.TIngredientResponse> =>
-    apiRequest<Types.TIngredientResponse>({
+  getIngredients: async (): Promise<TIngredientResponse> =>
+    request({
       url: "ingredients",
       method: "GET",
     }),
@@ -97,25 +26,20 @@ export const ingredientsApi = {
   /**
    * Создание заказа
    */
-  postOrder: async (
-    data: Types.TApiOrderRequest
-  ): Promise<Types.TOrderResponse> =>
-    apiRequest<Types.TOrderResponse>({
+  createOrder: async (
+    data: TCreateOrderRequest
+  ): Promise<TCreateOrderResponse> =>
+    request({
       url: "orders",
       method: "POST",
       data,
-      withToken: true,
     }),
-};
 
-export const passwordApi = {
   /**
    * Проверка на наличие аккаунта с текущим email
    */
-  forgotPassword: async (
-    data: Types.TForgotRequest
-  ): Promise<Types.TMessageResponse> =>
-    apiRequest<Types.TMessageResponse>({
+  forgotPassword: async (data: TForgotRequest): Promise<TForgotResponse> =>
+    request({
       url: "forgotPassword",
       method: "POST",
       data,
@@ -124,22 +48,18 @@ export const passwordApi = {
   /**
    * Сброс пароля
    */
-  resetPassword: async (
-    data: Types.TResetRequest
-  ): Promise<Types.TMessageResponse> =>
-    apiRequest<Types.TMessageResponse>({
+  resetPassword: async (data: TResetRequest): Promise<TResetResponse> =>
+    request({
       url: "resetPassword",
       method: "POST",
       data,
     }),
-};
 
-export const authApi = {
   /**
    * Авторизация
    */
-  login: async (data: Types.TLoginRequest): Promise<Types.TAuthResponse> =>
-    apiRequest<Types.TAuthResponse>({
+  login: async (data: TLoginRequest): Promise<TLoginResponse> =>
+    request({
       url: "login",
       method: "POST",
       data,
@@ -148,10 +68,8 @@ export const authApi = {
   /**
    * Регистрация
    */
-  register: async (
-    data: Types.TRegisterRequest
-  ): Promise<Types.TAuthResponse> =>
-    apiRequest<Types.TAuthResponse>({
+  register: async (data: TRegisterRequest): Promise<TRegisterResponse> =>
+    request({
       url: "register",
       method: "POST",
       data,
@@ -160,33 +78,31 @@ export const authApi = {
   /**
    * Выход из системы
    */
-  logout: async (data: Types.TTokenRequest): Promise<Types.TMessageResponse> =>
-    apiRequest<Types.TMessageResponse>({
+  logout: async (data: TLogoutRequest): Promise<TLogoutResponse> =>
+    request({
       url: "logout",
       method: "POST",
       data,
     }),
-};
 
-export const userApi = {
   /**
    * Получить данные о пользователе
    */
-  getUser: async (): Promise<Types.TUserApiResponse> =>
-    apiRequest<Types.TUserApiResponse>({
+  getUser: async (): Promise<TUserResponse> =>
+    request({
       url: "user",
       method: "GET",
-      withToken: true,
     }),
 
   /**
    * Обновить данные о пользователе
    */
-  updateUser: async (data: Types.TUserData): Promise<Types.TUserApiResponse> =>
-    apiRequest<Types.TUserApiResponse>({
+  updateUser: async (
+    data: TPatchUserRequest
+  ): Promise<{ email: string; name: string }> =>
+    request({
       url: "user",
       method: "PATCH",
       data,
-      withToken: true,
     }),
 };

@@ -1,0 +1,15 @@
+.feed-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  gap: 60px;
+
+  overflow: auto;
+}
+
+.feed-info-orders {
+  display: flex;
+  flex-direction: row;
+  gap: 36px;
+}
