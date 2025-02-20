@@ -5,18 +5,18 @@ import type { TSelectedIngredient } from "types/selectedIngredients";
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
-type TSliceSelectedIngredients = {
+export type TSliceSelectedIngredients = {
   selectedIngredients: Array<TSelectedIngredient>;
   selectedBun: TIngredient | null;
   viewedIngredient: TIngredient | null;
 };
 
-type TSelectedIngredientSortAction = {
+export type TSelectedIngredientSortAction = {
   fromIndex: number;
   toIndex: number;
 };
 
-const initialState: TSliceSelectedIngredients = {
+export const initialState: TSliceSelectedIngredients = {
   selectedBun: null,
   selectedIngredients: [],
   viewedIngredient: null,

@@ -2,12 +2,12 @@ import type { TIngredient } from "api/types/ingredients";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type TSliceIngredientsModal = {
+export type TSliceIngredientsModal = {
   ingredient: TIngredient | null;
   isOpen: boolean;
 };
 
-const initialState: TSliceIngredientsModal = {
+export const initialState: TSliceIngredientsModal = {
   ingredient: null,
   isOpen: false,
 };

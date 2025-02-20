@@ -4,14 +4,14 @@ import type { TIngredientResponse, TIngredient } from "api/types/ingredients";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "api/index";
 
-type TSliceIngredients = {
+export type TSliceIngredients = {
   ingredients: Array<TIngredient>;
   ingredientsHash: Record<string, TIngredient>;
   loading: boolean;
   error: string | null;
 };
 
-const initialState: TSliceIngredients = {
+export const initialState: TSliceIngredients = {
   error: null,
   ingredients: [],
   ingredientsHash: {},
