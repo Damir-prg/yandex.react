@@ -4,7 +4,7 @@ import type { TCreateOrderResponse } from "api/types/orders";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "api/index";
 
-type TSliceOrder = {
+export type TSliceOrder = {
   number: number | null;
   orderItems: Array<string>;
   loading: boolean;
@@ -12,7 +12,7 @@ type TSliceOrder = {
   name: string | null;
 };
 
-const initialState: TSliceOrder = {
+export const initialState: TSliceOrder = {
   name: null,
   error: null,
   loading: false,

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "api/index";
 
-type TPasswordSlice = {
+export type TPasswordSlice = {
   isMailSend: boolean;
   successReset: boolean;
 };
 
-const initialState: TPasswordSlice = {
+export const initialState: TPasswordSlice = {
   isMailSend: false,
   successReset: false,
 };

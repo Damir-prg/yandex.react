@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TFeedOrderItem } from "api/types/feed";
 
-type TSliceFeed = {
+export type TSliceFeed = {
   total: number | null;
   totalToday: number | null;
   status: "connected" | "disconnected" | "connecting";
   orders: Array<TFeedOrderItem>;
 };
 
-const initialState: TSliceFeed = {
+export const initialState: TSliceFeed = {
   orders: [],
   status: "disconnected",
   total: null,

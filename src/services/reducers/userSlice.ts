@@ -8,7 +8,7 @@ import { setCookie } from "utils/cookie";
 import { refreshToken } from "api/request";
 import { TFeedOrderItem } from "api/types/feed";
 
-type TSliceUser = {
+export type TSliceUser = {
   user: TAuthResponse["user"] | null;
   initLoading: boolean;
   isAuth: boolean;
@@ -17,7 +17,7 @@ type TSliceUser = {
   wsStatus: "connected" | "disconnected" | "connecting";
 };
 
-const initialState: TSliceUser = {
+export const initialState: TSliceUser = {
   isAuth: false,
   user: null,
   initLoading: true,
